@@ -59,17 +59,17 @@ cost-analyzer:
     savedReports:
       enabled: true
 
-      reports:
-        - title: "MinIO"
-          window: "today"
-          aggregateBy: "namespace"
-          idle: "separate"
-          accumulate: false
-          filters:
-            - property: "cluster"
-              value: "cluster-one,cluster*"
-            - property: "namespace"
-              value: "minio-operator-system,minio-premium-system,minio-standard-system"
+      # reports:
+      #   - title: "MinIO"
+      #     window: "today"
+      #     aggregateBy: "namespace"
+      #     idle: "separate"
+      #     accumulate: false
+      #     filters:
+      #       - property: "cluster"
+      #         value: "cluster-one,cluster*"
+      #       - property: "namespace"
+      #         value: "minio-operator-system,minio-premium-system,minio-standard-system"
 
     notifications:
       alertConfigs:
@@ -137,7 +137,7 @@ cost-analyzer:
       initImage: "${local.repositories.gcr}kubecost1/sql-init"
 
   networkCosts:
-    image: "${local.repositories.gcr}kubecost1/kubecost-network-costs:v15.0"
+    image: "${local.repositories.gcr}kubecost1/kubecost-network-costs:v15.3"
 
   clusterController:
     image: "${local.repositories.gcr}kubecost1/cluster-controller:v0.0.2"
