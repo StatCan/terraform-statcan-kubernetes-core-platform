@@ -3,7 +3,8 @@ resource "kubernetes_namespace" "kubecost_system" {
     name = "kubecost-system"
 
     labels = {
-      "namespace.statcan.gc.ca/purpose" = "system"
+      "namespace.statcan.gc.ca/purpose"                = "system"
+      "network.statcan.gc.ca/allow-ingress-controller" = "true"
     }
   }
 }
