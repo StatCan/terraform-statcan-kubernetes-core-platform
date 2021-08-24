@@ -46,7 +46,7 @@ module "kubecost" {
   ]
 
   helm_namespace           = kubernetes_namespace.kubecost_system.id
-  helm_repository          = lookup(var.platform_helm_repositories, "cost-analyzer", "https://statcan.github.io/charts")
+  helm_repository          = lookup(var.platform_helm_repositories, "cost-analyzer", "https://kubecost.github.io/cost-analyzer")
   helm_repository_username = var.platform_helm_repository_username
   helm_repository_password = var.platform_helm_repository_password
 
@@ -55,142 +55,129 @@ module "kubecost" {
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
-cost-analyzer:
-  global:
-    savedReports:
-      enabled: true
+global:
+  savedReports:
+    enabled: false
 
-      # reports:
-      #   - title: "MinIO"
-      #     window: "today"
-      #     aggregateBy: "namespace"
-      #     idle: "separate"
-      #     accumulate: false
-      #     filters:
-      #       - property: "cluster"
-      #         value: "cluster-one,cluster*"
-      #       - property: "namespace"
-      #         value: "minio-operator-system,minio-premium-system,minio-standard-system"
+  assetReports:
+    enabled: false
 
-    notifications:
-      alertConfigs:
-        frontendUrl: "kubecost.${var.ingress_domain}"
-        globalSlackWebhookUrl: "${var.kubecost_slack_token}"
-        globalAlertEmails:
-          - brendan.gadd@canada.ca
-          - william.hearn@canada.ca
-          - zachary.seguin@canada.ca
+  notifications:
+    alertConfigs:
+      frontendUrl: "kubecost.${var.ingress_domain}"
+      globalSlackWebhookUrl: "${var.kubecost_slack_token}"
+      globalAlertEmails:
+        - brendan.gadd@canada.ca
+        - william.hearn@canada.ca
+        - zachary.seguin@canada.ca
 
-        alerts:
-          - type: budget
-            threshold: 1000
-            window: daily
-            aggregation: cluster
-            filter: cluster-one
+      alerts:
+        - type: budget
+          threshold: 1000
+          window: daily
+          aggregation: cluster
+          filter: cluster-one
 
-          - type: budget
-            threshold: 50
-            window: daily
-            aggregation: namespace
-            filter: "minio-operator-system,minio-premium-system,minio-standard-system"
-            ownerContact:
-              - william.hearn@canada.ca
-              - zachary.seguin@canada.ca
+        - type: budget
+          threshold: 50
+          window: daily
+          aggregation: namespace
+          filter: "minio-operator-system,minio-premium-system,minio-standard-system"
+          ownerContact:
+            - william.hearn@canada.ca
+            - zachary.seguin@canada.ca
 
-          - type: recurringUpdate
-            window: weekly
-            aggregation: namespace
-            filter: '*'
+        - type: recurringUpdate
+          window: weekly
+          aggregation: namespace
+          filter: '*'
 
-          - type: spendChange
-            relativeThreshold: 0.20
-            window: 1d
-            baselineWindow: 30d
-            aggregation: namespace
-            filter: "${var.kubecost_shared_namespaces}"
+        - type: spendChange
+          relativeThreshold: 0.20
+          window: 1d
+          baselineWindow: 30d
+          aggregation: namespace
+          filter: "${var.kubecost_shared_namespaces}"
 
-          - type: health
-            window: 10m
-            threshold: 5
+        - type: health
+          window: 10m
+          threshold: 5
 
-          - type: diagnostic
-            window: 10m
-
-      alertmanager:
-        enabled: false
-
-  kubecostToken: "${var.kubecost_token}"
-
-  imagePullSecrets:
-    - name: "${local.platform_image_pull_secret_name}"
-
-  kubecostFrontend:
-    image: "${local.repositories.gcr}kubecost1/frontend"
-
-  kubecost:
-    image: "${local.repositories.gcr}kubecost1/server"
-
-  kubecostModel:
-    image: "${local.repositories.gcr}kubecost1/cost-model"
-
-  remoteWrite:
-    postgres:
-      initImage: "${local.repositories.gcr}kubecost1/sql-init"
-
-  networkCosts:
-    image: "${local.repositories.gcr}kubecost1/kubecost-network-costs:v15.3"
-
-  clusterController:
-    image: "${local.repositories.gcr}kubecost1/cluster-controller:v0.0.2"
-
-  initChownDataImage: "${local.repositories.dockerhub}busybox"
-
-  tolerations:
-    - key: CriticalAddonsOnly
-      operator: Exists
-
-  ingress:
-    enabled: true
-    annotations:
-      kubernetes.io/ingress.class: istio
-    hosts:
-      - "kubecost.${var.ingress_domain}"
-    paths:
-      - '/*'
-
-  prometheus:
-    nodeExporter:
-      tolerations:
-        - key: CriticalAddonsOnly
-          operator: Exists
-        - effect: NoSchedule
-          operator: Exists
+        - type: diagnostic
+          window: 10m
 
     alertmanager:
-      enabled: true
+      enabled: false
 
-  kubecostProductConfigs:
-    clusterName: "${var.cluster_name}"
-    clusterProfile: ${var.kubecost_cluster_profile}
-    currencyCode: "CAD"
-    gpuLabel: "node.statcan.gc.ca/use"
-    gpuLabelValue: "gpu"
-    azureBillingRegion: CA
-    azureSubscriptionID: ${var.subscription_id}
-    azureClientID: ${var.kubecost_client_id}
-    azureClientPassword: ${var.kubecost_client_secret}
-    azureTenantID: ${var.tenant_id}
-    azureStorageAccount: ${var.kubecost_storage_account}
-    azureStorageAccessKey: ${var.kubecost_storage_access_key}
-    azureStorageContainer: ${var.kubecost_storage_container}
-    azureStorageCreateSecret: true
-    sharedNamespaces: "${var.kubecost_shared_namespaces}"
-    productKey:
-      enabled: true
-      key: ${var.kubecost_product_key}
-    createServiceKeySecret: true
+kubecostToken: "${var.kubecost_token}"
 
-destinationRule:
+imagePullSecrets:
+  - name: "${local.platform_image_pull_secret_name}"
+
+kubecostFrontend:
+  image: "${local.repositories.gcr}kubecost1/frontend"
+
+kubecost:
+  image: "${local.repositories.gcr}kubecost1/server"
+
+kubecostModel:
+  image: "${local.repositories.gcr}kubecost1/cost-model"
+
+remoteWrite:
+  postgres:
+    initImage: "${local.repositories.gcr}kubecost1/sql-init"
+
+networkCosts:
+  image: "${local.repositories.gcr}kubecost1/kubecost-network-costs:v15.6"
+
+clusterController:
+  image: "${local.repositories.gcr}kubecost1/cluster-controller:v0.0.2"
+
+initChownDataImage: "${local.repositories.dockerhub}busybox"
+
+tolerations:
+  - key: CriticalAddonsOnly
+    operator: Exists
+
+ingress:
   enabled: true
+  annotations:
+    kubernetes.io/ingress.class: istio
+  hosts:
+    - "kubecost.${var.ingress_domain}"
+  paths:
+    - '/*'
+
+prometheus:
+  nodeExporter:
+    tolerations:
+      - key: CriticalAddonsOnly
+        operator: Exists
+      - effect: NoSchedule
+        operator: Exists
+
+  alertmanager:
+    enabled: true
+
+kubecostProductConfigs:
+  clusterName: "${var.cluster_name}"
+  clusterProfile: ${var.kubecost_cluster_profile}
+  currencyCode: "CAD"
+  gpuLabel: "node.statcan.gc.ca/use"
+  gpuLabelValue: "gpu"
+  azureBillingRegion: CA
+  azureSubscriptionID: ${var.subscription_id}
+  azureClientID: ${var.kubecost_client_id}
+  azureClientPassword: ${var.kubecost_client_secret}
+  azureTenantID: ${var.tenant_id}
+  azureStorageAccount: ${var.kubecost_storage_account}
+  azureStorageAccessKey: ${var.kubecost_storage_access_key}
+  azureStorageContainer: ${var.kubecost_storage_container}
+  azureStorageCreateSecret: true
+  sharedNamespaces: "${var.kubecost_shared_namespaces}"
+  productKey:
+    enabled: true
+    key: ${var.kubecost_product_key}
+  createServiceKeySecret: true
 EOF
 }
