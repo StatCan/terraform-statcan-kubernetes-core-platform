@@ -121,7 +121,7 @@ kubecost:
   image: "${local.repositories.gcr}kubecost1/server"
 
 kubecostModel:
-  fullImageName: "${local.repositories.gcr}kubecost1/cost-model-nightly:CM-a65c111_KCM-f14c1ab"
+  image: "${local.repositories.gcr}kubecost1/cost-model"
 
 remoteWrite:
   postgres:
