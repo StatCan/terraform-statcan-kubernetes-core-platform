@@ -163,6 +163,26 @@ kubecostProductConfigs:
   clusterName: "${var.cluster_name}"
   clusterProfile: ${var.kubecost_cluster_profile}
   currencyCode: "CAD"
+  labelMappingConfigs:
+    enabled: true
+    # owner_label: "owner"
+    # team_label: "team"
+    # department_label: "dept"
+    product_label: "finance.statcan.gc.ca/workload-id"
+    # environment_label: "env"
+    # namespace_external_label: "kubernetes_namespace"
+    # cluster_external_label: "kubernetes_cluster"
+    # controller_external_label: "kubernetes_controller"
+    product_external_label: "wid"
+    # service_external_label: "kubernetes_service"
+    # deployment_external_label: "kubernetes_deployment"
+    # owner_external_label: "kubernetes_label_owner"
+    # team_external_label: "kubernetes_label_team"
+    # environment_external_label: "kubernetes_label_env"
+    # department_external_label: "kubernetes_label_department"
+    # statefulset_external_label: "kubernetes_statefulset"
+    # daemonset_external_label: "kubernetes_daemonset"
+    # pod_external_label: "kubernetes_pod"
   gpuLabel: "node.statcan.gc.ca/use"
   gpuLabelValue: "gpu"
   azureBillingRegion: CA
