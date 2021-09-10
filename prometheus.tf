@@ -4,7 +4,8 @@ resource "kubernetes_namespace" "prometheus_system" {
     name = "prometheus-system"
 
     labels = {
-      "namespace.statcan.gc.ca/purpose" = "system"
+      "namespace.statcan.gc.ca/purpose"                = "system"
+      "network.statcan.gc.ca/allow-ingress-controller" = "true"
     }
   }
 }
