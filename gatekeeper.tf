@@ -57,14 +57,32 @@ module "gatekeeper" {
   }]
 
   values = <<EOF
+logLevel: WARNING
+
 controllerManager:
   tolerations:
     - key: CriticalAddonsOnly
       operator: Exists
 
+  resources:
+    limits:
+      cpu: 1000m
+      memory: 1024Mi
+    requests:
+      cpu: 100m
+      memory: 1024Mi
+
 audit:
   tolerations:
     - key: CriticalAddonsOnly
       operator: Exists
+
+  resources:
+    limits:
+      cpu: 1000m
+      memory: 512Mi
+    requests:
+      cpu: 100m
+      memory: 256Mi
 EOF
 }
