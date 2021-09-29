@@ -56,7 +56,20 @@ module "gatekeeper" {
     name = local.platform_image_pull_secret_name
   }]
 
+  opa_limits_cpu = "1000m"
+  opa_limits_memory = "1024Mi"
+  opa_requests_cpu = "100m"
+  opa_requests_memory = "1024Mi"
+
+  opa_audit_limits_cpu = "1000m"
+  opa_audit_limits_memory = "512Mi"
+  opa_audit_requests_cpu = "100m"
+  opa_audit_requests_memory = "256Mi"
+
   values = <<EOF
+auditChunkSize: 500
+auditMatchKindOnly: true
+
 logLevel: WARNING
 
 controllerManager:
@@ -64,25 +77,9 @@ controllerManager:
     - key: CriticalAddonsOnly
       operator: Exists
 
-  resources:
-    limits:
-      cpu: 1000m
-      memory: 1024Mi
-    requests:
-      cpu: 100m
-      memory: 1024Mi
-
 audit:
   tolerations:
     - key: CriticalAddonsOnly
       operator: Exists
-
-  resources:
-    limits:
-      cpu: 1000m
-      memory: 512Mi
-    requests:
-      cpu: 100m
-      memory: 256Mi
 EOF
 }
