@@ -57,14 +57,14 @@ module "gatekeeper" {
   }]
 
   opa_limits_cpu = "1000m"
-  opa_limits_memory = "1024Mi"
+  opa_limits_memory = "3072Mi"
   opa_requests_cpu = "100m"
-  opa_requests_memory = "1024Mi"
+  opa_requests_memory = "1528Mi"
 
   opa_audit_limits_cpu = "1000m"
-  opa_audit_limits_memory = "512Mi"
+  opa_audit_limits_memory = "3072Mi"
   opa_audit_requests_cpu = "100m"
-  opa_audit_requests_memory = "256Mi"
+  opa_audit_requests_memory = "1528Mi"
 
   values = <<EOF
 auditChunkSize: 500
