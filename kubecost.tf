@@ -160,11 +160,10 @@ prometheus:
   alertmanager:
     enabled: true
   
-%{if length(var.kubecost_prometheus_node_selector) > 0 ~}
+%{if length(var.kubecost_prometheus_node_selector) > 0~}
   nodeSelector:
-    ${indent(4, yamlencode(var.kubecost_prometheus_node_selector))}
-%{endif}    
-
+    ${indent(4, yamlencode(var.kubecost_prometheus_node_selector))~}
+%{endif~}
 
 kubecostProductConfigs:
   clusterName: "${var.cluster_name}"
