@@ -178,3 +178,13 @@ variable "kubecost_shared_namespaces" {
 variable "kubecost_slack_token" {
 
 }
+
+variable "global_fluentd_config" {
+  description = "Global Fluentd config, usually used to define the default plugin"
+
+  default = <<EOF
+<plugin default>
+  @type null
+</plugin>
+EOF
+}

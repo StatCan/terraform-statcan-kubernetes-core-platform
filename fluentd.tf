@@ -32,6 +32,9 @@ module "namespace_fluentd_system" {
 
   # Dependencies
   dependencies = []
+
+  # Fluentd config
+  fluentd_config = var.global_fluentd_config
 }
 
 module "fluentd" {
