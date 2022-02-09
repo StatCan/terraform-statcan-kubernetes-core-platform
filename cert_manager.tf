@@ -102,7 +102,7 @@ EOF
 }
 
 module "cert_manager_letsencrypt_staging" {
-  source = "git::https://gitlab.k8s.cloud.statcan.ca/cloudnative/terraform/modules/terraform-kubernetes-cert-manager-issuer.git?ref=v1.0.0"
+  source = "git::https://gitlab.k8s.cloud.statcan.ca/cloudnative/terraform/modules/terraform-kubernetes-cert-manager-issuer.git?ref=v1.1.0"
 
   depends_on = [
     module.cert_manager
@@ -115,11 +115,12 @@ module "cert_manager_letsencrypt_staging" {
   acme_dns01_azuredns_resource_group_name = var.cert_manager_resource_group_name
   acme_dns01_azuredns_hosted_zone_name    = var.cert_manager_hosted_zone_name
   acme_http01_ingress_class               = "external"
+  acme_http01_ingress_service_type        = "ClusterIP"
   acme_server                             = "https://acme-staging-v02.api.letsencrypt.org/directory"
 }
 
 module "cert_manager_letsencrypt" {
-  source = "git::https://gitlab.k8s.cloud.statcan.ca/cloudnative/terraform/modules/terraform-kubernetes-cert-manager-issuer.git?ref=v1.0.0"
+  source = "git::https://gitlab.k8s.cloud.statcan.ca/cloudnative/terraform/modules/terraform-kubernetes-cert-manager-issuer.git?ref=v1.1.0"
 
   depends_on = [
     module.cert_manager
@@ -132,5 +133,6 @@ module "cert_manager_letsencrypt" {
   acme_dns01_azuredns_resource_group_name = var.cert_manager_resource_group_name
   acme_dns01_azuredns_hosted_zone_name    = var.cert_manager_hosted_zone_name
   acme_http01_ingress_class               = "external"
+  acme_http01_ingress_service_type        = "ClusterIP"
   acme_server                             = "https://acme-v02.api.letsencrypt.org/directory"
 }
