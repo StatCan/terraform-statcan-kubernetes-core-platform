@@ -38,7 +38,7 @@ module "namespace_fluentd_system" {
 }
 
 module "fluentd" {
-  source = "git::https://gitlab.k8s.cloud.statcan.ca/cloudnative/terraform/modules/terraform-kubernetes-fluentd.git?ref=v3.0.0"
+  source = "git::https://github.com/statcan/terraform-kubernetes-fluentd.git?ref=v3.0.0"
 
   depends_on = [
     kubernetes_namespace.fluentd_system

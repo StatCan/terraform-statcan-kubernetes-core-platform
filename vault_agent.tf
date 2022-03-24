@@ -34,7 +34,7 @@ module "namespace_vault_agent_system" {
 }
 
 module "vault_agent" {
-  source = "git::https://gitlab.k8s.cloud.statcan.ca/cloudnative/terraform/modules/terraform-kubernetes-vault-agent.git?ref=main"
+  source = "git::https://github.com/statcan/terraform-kubernetes-vault-agent.git?ref=main"
 
   depends_on = []
 

@@ -40,7 +40,7 @@ module "kubecost" {
     helm = helm
   }
 
-  source = "git::https://gitlab.k8s.cloud.statcan.ca/cloudnative/terraform/modules/terraform-kubernetes-kubecost.git?ref=v3.x"
+  source = "git::https://github.com/statcan/terraform-kubernetes-kubecost.git?ref=v3.x"
 
   depends_on = [
     kubernetes_namespace.kubecost_system
@@ -159,7 +159,7 @@ prometheus:
 
   alertmanager:
     enabled: true
-  
+
 %{if length(var.kubecost_prometheus_node_selector) > 0~}
   nodeSelector:
     ${indent(4, yamlencode(var.kubecost_prometheus_node_selector))~}

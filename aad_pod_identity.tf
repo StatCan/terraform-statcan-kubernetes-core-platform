@@ -39,7 +39,7 @@ module "aad_pod_identity" {
     helm = helm
   }
 
-  source = "git::https://gitlab.k8s.cloud.statcan.ca/cloudnative/terraform/modules/terraform-kubernetes-aad-pod-identity.git?ref=v3.x"
+  source = "git::https://github.com/statcan/terraform-kubernetes-aad-pod-identity.git?ref=v3.x"
 
   depends_on = [
     kubernetes_namespace.aad_pod_identity_system

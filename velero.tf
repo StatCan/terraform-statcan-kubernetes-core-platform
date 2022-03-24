@@ -35,7 +35,7 @@ module "namespace_velero_system" {
 }
 
 module "velero_identity" {
-  source = "git::https://gitlab.k8s.cloud.statcan.ca/cloudnative/terraform/modules/terraform-kubernetes-aad-pod-identity-template.git?ref=v2.x"
+  source = "git::https://github.com/statcan/terraform-kubernetes-aad-pod-identity-template.git?ref=v2.x"
 
   depends_on = [
     module.aad_pod_identity
@@ -50,7 +50,7 @@ module "velero_identity" {
 }
 
 module "velero" {
-  source = "git::https://gitlab.k8s.cloud.statcan.ca/cloudnative/terraform/modules/terraform-kubernetes-velero.git?ref=v4.x"
+  source = "git::https://github.com/statcan/terraform-kubernetes-velero.git?ref=v4.x"
 
   depends_on = [
     module.velero_identity

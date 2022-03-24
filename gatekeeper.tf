@@ -38,7 +38,7 @@ module "namespace_gatekeeper_system" {
 }
 
 module "gatekeeper" {
-  source = "git::https://gitlab.k8s.cloud.statcan.ca/cloudnative/terraform/modules/terraform-kubernetes-open-policy-agent.git?ref=v3.x"
+  source = "git::https://github.com/statcan/terraform-kubernetes-open-policy-agent.git?ref=v3.x"
 
   depends_on = [
     kubernetes_namespace.gatekeeper_system

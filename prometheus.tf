@@ -49,7 +49,7 @@ module "prometheus" {
     helm = helm
   }
 
-  source = "git::https://gitlab.k8s.cloud.statcan.ca/cloudnative/terraform/modules/terraform-kubernetes-prometheus.git?ref=v3.x"
+  source = "git::https://github.com/statcan/terraform-kubernetes-prometheus.git?ref=v3.x"
 
   depends_on = [
     kubernetes_namespace.prometheus_system
