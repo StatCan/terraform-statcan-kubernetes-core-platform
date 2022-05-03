@@ -160,7 +160,7 @@ prometheus-operator:
             storageClassName: default
             resources:
               requests:
-                storage: 80Gi
+                storage: ${var.prometheus_disk_size}
       externalLabels:
         cluster: ${var.cluster_name}
 

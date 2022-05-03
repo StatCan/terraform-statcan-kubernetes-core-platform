@@ -179,6 +179,12 @@ variable "kubecost_slack_token" {
 
 }
 
+# Prometheus
+
+variable "prometheus_disk_size" {
+  default = "80Gi"
+}
+
 variable "global_fluentd_config" {
   description = "Global Fluentd config, usually used to define the default plugin"
 
