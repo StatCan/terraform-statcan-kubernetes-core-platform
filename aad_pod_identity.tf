@@ -39,7 +39,7 @@ module "aad_pod_identity" {
     helm = helm
   }
 
-  source = "git::https://github.com/statcan/terraform-kubernetes-aad-pod-identity.git?ref=v3.x"
+  source = "git::https://github.com/statcan/terraform-kubernetes-aad-pod-identity.git?ref=v3.0.0"
 
   depends_on = [
     kubernetes_namespace.aad_pod_identity_system
@@ -49,6 +49,11 @@ module "aad_pod_identity" {
   helm_repository          = lookup(var.platform_helm_repositories, "aad-pod-identity", "https://raw.githubusercontent.com/Azure/aad-pod-identity/master/charts")
   helm_repository_username = var.platform_helm_repository_username
   helm_repository_password = var.platform_helm_repository_password
+
+  chart_version = "4.1.9"
+
+  resource_id = ""
+  client_id   = ""
 
   values = <<EOF
 forceNamespaced: "true"
@@ -65,7 +70,10 @@ rbac:
   # If using only MSI (type: 0) in AzureIdentity, secret get permission can be disabled by setting this to false.
   allowAccessToSecrets: false
 
-mic:
+# Set metadata-header-required flag to false on the NMI container image.
+# Once we move to CNP 2.0, this flag will be re-enabled.
+nmi:
+  metadataHeaderRequired: false
   tolerations:
     - key: CriticalAddonsOnly
       operator: Exists
