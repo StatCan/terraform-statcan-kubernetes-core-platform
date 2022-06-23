@@ -50,7 +50,7 @@ module "aad_pod_identity" {
   helm_repository_username = var.platform_helm_repository_username
   helm_repository_password = var.platform_helm_repository_password
 
-  chart_version = "4.1.9"
+  chart_version = "4.1.10"
 
   resource_id = ""
   client_id   = ""
