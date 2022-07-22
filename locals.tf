@@ -8,5 +8,6 @@ locals {
     mcr       = lookup(var.platform_image_bases, "mcr", "mcr.microsoft.com/")
     quay      = lookup(var.platform_image_bases, "quay", "quay.io/")
     k8s       = lookup(var.platform_image_bases, "k8s", "k8s.gcr.io/")
+    k8sreg    = lookup(var.platform_image_bases, "k8sreg", "registry.k8s.io/")
   }
 }

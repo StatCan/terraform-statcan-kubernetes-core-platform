@@ -116,18 +116,11 @@ prometheusOperator:
       - key: CriticalAddonsOnly
         operator: Exists
       image:
-        repository: ${local.repositories.dockerhub}jettech/kube-webhook-certgen
-  configmapReloadImage:
-    repository: ${local.repositories.dockerhub}jimmidyson/configmap-reload
-  hyperkubeImage:
-    repository: ${local.repositories.k8s}hyperkube
+        repository: ${local.repositories.k8sreg}ingress-nginx/kube-webhook-certgen
   image:
-    repository: ${local.repositories.quay}coreos/prometheus-operator
+    repository: ${local.repositories.quay}prometheus-operator/prometheus-operator
   prometheusConfigReloaderImage:
-    repository: ${local.repositories.quay}coreos/prometheus-config-reloader
-  tlsProxy:
-    image:
-      repository: ${local.repositories.dockerhub}squareup/ghostunnel
+    repository: ${local.repositories.quay}prometheus-operator/prometheus-config-reloader
 
 # NOTE ingress.ingressClassName will need to be set on kubernetes >=1.18
 # REF https://kubernetes.io/blog/2020/04/02/improvements-to-the-ingress-api-in-kubernetes-1.18/#specifying-the-class-of-an-ingress
@@ -270,7 +263,7 @@ prometheus-node-exporter:
 
 kube-state-metrics:
   image:
-    repository: ${local.repositories.quay}coreos/kube-state-metrics
+    repository: ${local.repositories.k8sreg}kube-state-metrics/kube-state-metrics
   imagePullSecrets:
   - name: "${local.platform_image_pull_secret_name}"
   tolerations:
