@@ -138,7 +138,7 @@ grafana:
       repository: ${local.repositories.dockerhub}busybox
 
   ingress:
-    enabled: true
+    enabled: false
     hosts:
       - grafana.${var.ingress_domain}
     annotations:
@@ -171,7 +171,7 @@ grafana:
 # REF https://kubernetes.io/blog/2020/04/02/improvements-to-the-ingress-api-in-kubernetes-1.18/#specifying-the-class-of-an-ingress
 prometheus:
   ingress:
-    enabled: true
+    enabled: false
     hosts:
       - prometheus.${var.ingress_domain}
     paths:
@@ -218,7 +218,7 @@ prometheus:
 
 alertmanager:
   ingress:
-    enabled: true
+    enabled: false
     hosts:
       - alertmanager.${var.ingress_domain}
     paths:
@@ -241,6 +241,9 @@ alertmanager:
           resources:
             requests:
               storage: 20Gi
+          selector:
+            matchLabels:
+              claim: platform-alertmanager
 
 prometheus-node-exporter:
   image:
