@@ -103,6 +103,7 @@ kubecostProductConfigs:
   azureSubscriptionID: ${var.subscription_id}
   azureClientID: ${var.kubecost_client_id}
   azureClientPassword: ${var.kubecost_client_secret}
+  azureOfferDurableID: MS-AZR-0017P
   azureTenantID: ${var.tenant_id}
   createServiceKeySecret: true
   grafanaURL: https://grafana.${var.ingress_domain}
