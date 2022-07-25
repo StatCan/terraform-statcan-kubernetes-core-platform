@@ -60,6 +60,7 @@ global:
     enabled: false
     domainName: kube-prometheus-stack-grafana.prometheus-system
     proxy: false
+
 kubecostToken: "${var.kubecost_token}"
 imagePullSecrets:
   - name: "${local.platform_image_pull_secret_name}"
@@ -93,17 +94,7 @@ grafana:
       enabled: true
     datasources:
       enabled: false
-prometheus:
-  nodeExporter:
-    tolerations:
-      - key: CriticalAddonsOnly
-        operator: Exists
-      - effect: NoSchedule
-        operator: Exists
-%{if length(var.kubecost_prometheus_node_selector) > 0~}
-  nodeSelector:
-    ${indent(4, yamlencode(var.kubecost_prometheus_node_selector))~}
-%{endif~}
+
 kubecostProductConfigs:
   clusterName: "${var.cluster_name}"
   clusterProfile: ${var.kubecost_cluster_profile}
@@ -129,5 +120,18 @@ kubecostProductConfigs:
   gpuLabel: "node.statcan.gc.ca/use"
   gpuLabelValue: "gpu"
   sharedNamespaces: "${var.kubecost_shared_namespaces}"
+
+prometheus:
+  nodeExporter:
+    tolerations:
+      - key: CriticalAddonsOnly
+        operator: Exists
+      - effect: NoSchedule
+        operator: Exists
+%{if length(var.kubecost_prometheus_node_selector) > 0~}
+  nodeSelector:
+    ${indent(4, yamlencode(var.kubecost_prometheus_node_selector))~}
+%{endif~}
+
 EOF
 }
