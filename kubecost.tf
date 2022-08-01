@@ -79,7 +79,7 @@ clusterController:
   image: "${local.repositories.gcr}kubecost1/cluster-controller:v0.1.0"
 initChownDataImage: "${local.repositories.dockerhub}busybox"
 ingress:
-  enabled: true
+  enabled: false
   hosts:
   - "kubecost.${var.ingress_domain}"
   paths:
