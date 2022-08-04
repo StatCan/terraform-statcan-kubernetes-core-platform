@@ -52,6 +52,7 @@ module "velero_identity" {
 module "velero" {
   source = "git::https://github.com/statcan/terraform-kubernetes-velero.git?ref=v4.x"
 
+  chart_version = "2.29.5"
   depends_on = [
     module.velero_identity
   ]
@@ -85,13 +86,27 @@ tolerations:
 podLabels:
   aadpodidbinding: velero
 
+# Assign resource limits
+resources:
+  requests:
+    cpu: '1'
+    memory: 512Mi
+  limits:
+    cpu: '1'
+    memory: 1Gi
+
 initContainers:
   - name: velero-plugin-for-azure
-    image: ${local.repositories.dockerhub}velero/velero-plugin-for-microsoft-azure:v1.1.1
+    image: ${local.repositories.dockerhub}velero/velero-plugin-for-microsoft-azure:v1.4.1
     imagePullPolicy: IfNotPresent
     volumeMounts:
       - mountPath: /target
         name: plugins
+
+# Point kubectl image repo to StatCan Artifactory
+kubectl:
+  image:
+    repository: artifactory.cloud.statcan.ca/docker/bitnami/kubectl
 
 configuration:
   # Cloud provider being used (e.g. aws, azure, gcp).
