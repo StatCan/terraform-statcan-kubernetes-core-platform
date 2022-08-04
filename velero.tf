@@ -103,10 +103,9 @@ initContainers:
       - mountPath: /target
         name: plugins
 
-# Point kubectl image repo to StatCan Artifactory
 kubectl:
   image:
-    repository: artifactory.cloud.statcan.ca/docker/bitnami/kubectl
+    repository: ${local.repositories.dockerhub}bitnami/kubectl
 
 configuration:
   # Cloud provider being used (e.g. aws, azure, gcp).
