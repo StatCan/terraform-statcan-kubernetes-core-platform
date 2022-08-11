@@ -138,11 +138,11 @@ grafana:
       repository: ${local.repositories.dockerhub}busybox
 
   ingress:
-    enabled: false
+    enabled: true
     hosts:
       - grafana.${var.ingress_domain}
-    annotations:
-      kubernetes.io/ingress.class: istio
+    annotations: {}
+    ingressClassName: ""
 
   sidecar:
     dashboards:
@@ -171,13 +171,14 @@ grafana:
 # REF https://kubernetes.io/blog/2020/04/02/improvements-to-the-ingress-api-in-kubernetes-1.18/#specifying-the-class-of-an-ingress
 prometheus:
   ingress:
-    enabled: false
+    enabled: true
     hosts:
       - prometheus.${var.ingress_domain}
     paths:
       - /.*
     annotations:
-      kubernetes.io/ingress.class: istio
+      ingress.statcan.gc.ca/gateways: istio-system/authenticated-istio-ingress-gateway-https
+    ingressClassName: ""
 
   prometheusSpec:
     image:
@@ -218,13 +219,14 @@ prometheus:
 
 alertmanager:
   ingress:
-    enabled: false
+    enabled: true
     hosts:
       - alertmanager.${var.ingress_domain}
     paths:
       - /.*
     annotations:
-      kubernetes.io/ingress.class: istio
+      ingress.statcan.gc.ca/gateways: istio-system/authenticated-istio-ingress-gateway-https
+    ingressClassName: ""
 
   alertmanagerSpec:
     tolerations:
