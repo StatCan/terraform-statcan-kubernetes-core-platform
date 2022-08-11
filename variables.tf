@@ -103,6 +103,50 @@ variable "cert_manager_hosted_zone_name" {
 
 }
 
+# gatekeeper controller pods
+
+variable "gk_limits_cpu" {
+  description = "max cpu allocated for gatekeeper controller pods"
+  default     = "1000m"
+}
+
+variable "gk_requests_cpu" {
+  description = "min cpu allocated for gatekeeper controller pods"
+  default     = "100m"
+}
+
+variable "gk_limits_memory" {
+  description = "max cpu allocated for gatekeeper controller pods"
+  default     = "1528Mi"
+}
+
+variable "gk_requests_memory" {
+  description = "min cpu allocated for gatekeeper audit pods"
+  default     = "1024Mi"
+}
+
+# gatekeeper audit pods
+
+variable "gk_audit_limits_cpu" {
+  description = "max cpu allocated for gatekeeper audit pods"
+  default     = "1000m"
+}
+
+variable "gk_audit_requests_cpu" {
+  description = "min cpu allocated for gatekeeper controller pods"
+  default     = "100m"
+}
+
+variable "gk_audit_limits_memory" {
+  description = "max mem allocated for gatekeeper audit pods"
+  default     = "1528Mi"
+}
+
+variable "gk_audit_requests_memory" {
+  description = "min cpu allocated for gatekeeper audit pods"
+  default     = "1024Mi"
+}
+
 # Velero
 
 variable "backup_resource_group_name" {

@@ -56,15 +56,15 @@ module "gatekeeper" {
     name = local.platform_image_pull_secret_name
   }]
 
-  opa_limits_cpu      = "1000m"
-  opa_limits_memory   = "3072Mi"
-  opa_requests_cpu    = "100m"
-  opa_requests_memory = "1528Mi"
+  opa_limits_cpu      = var.gk_limits_cpu
+  opa_limits_memory   = var.gk_limits_memory
+  opa_requests_cpu    = var.gk_requests_cpu
+  opa_requests_memory = var.gk_requests_memory
 
-  opa_audit_limits_cpu      = "1000m"
-  opa_audit_limits_memory   = "3072Mi"
-  opa_audit_requests_cpu    = "100m"
-  opa_audit_requests_memory = "1528Mi"
+  opa_audit_limits_cpu      = var.gk_audit_limits_cpu
+  opa_audit_limits_memory   = var.gk_audit_limits_memory
+  opa_audit_requests_cpu    = var.gk_audit_requests_cpu
+  opa_audit_requests_memory = var.gk_audit_requests_memory
 
   values = <<EOF
 auditChunkSize: 500
