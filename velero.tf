@@ -52,7 +52,7 @@ module "velero_identity" {
 module "velero" {
   source = "git::https://github.com/statcan/terraform-kubernetes-velero.git?ref=v4.x"
 
-  chart_version = "2.29.5"
+  chart_version = "2.30.2"
   depends_on = [
     module.velero_identity
   ]
@@ -97,7 +97,7 @@ resources:
 
 initContainers:
   - name: velero-plugin-for-azure
-    image: ${local.repositories.dockerhub}velero/velero-plugin-for-microsoft-azure:v1.4.1
+    image: ${local.repositories.dockerhub}velero/velero-plugin-for-microsoft-azure:v1.5.0
     imagePullPolicy: IfNotPresent
     volumeMounts:
       - mountPath: /target
