@@ -155,6 +155,18 @@ grafana:
   grafana.ini:
     auth.ldap:
       enabled: false
+    auth.azuread:
+      enabled: true
+      name: "Azure AD"
+      allow_sign_up: true
+      client_id: "$__file{/etc/secrets/auth_azuread/client_id}"
+      client_secret: "$__file{/etc/secrets/auth_azuread/client_secret}"
+      scopes: "openid email profile"
+      auth_url: "https://login.microsoftonline.com/${var.tenant_id}/oauth2/v2.0/authorize"
+      token_url: "https://login.microsoftonline.com/${var.tenant_id}/oauth2/v2.0/token"
+      allowed_domains: ""
+      allowed_groups: ""
+      role_attribute_strict: false
 
   ldap:
     enabled: false
@@ -166,6 +178,13 @@ grafana:
     size: 20Gi
     selectorLabels:
       claim: platform-grafana
+
+  extraSecretMounts:
+    - name: auth-azuread-oauth-secret-mount
+      secretName: ${kubernetes_secret.grafana_azuread_oauth.metadata.0.name}
+      defaultMode: 0440
+      mountPath: /etc/secrets/auth_azuread
+      readOnly: true
 
 # NOTE ingress.ingressClassName will need to be set on kubernetes >=1.18
 # REF https://kubernetes.io/blog/2020/04/02/improvements-to-the-ingress-api-in-kubernetes-1.18/#specifying-the-class-of-an-ingress
@@ -323,4 +342,16 @@ serviceMonitor:
 
 EOF
   ]
+}
+
+resource "kubernetes_secret" "grafana_azuread_oauth" {
+  metadata {
+    name      = "auth-azuread-oauth-secret"
+    namespace = kubernetes_namespace.prometheus_system.id
+  }
+
+  data = {
+    client_id     = var.grafana_client_id
+    client_secret = var.grafana_client_secret
+  }
 }

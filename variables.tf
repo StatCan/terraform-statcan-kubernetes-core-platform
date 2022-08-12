@@ -147,6 +147,16 @@ variable "gk_audit_requests_memory" {
   default     = "1024Mi"
 }
 
+# Grafana
+
+variable "grafana_client_id" {
+
+}
+
+variable "grafana_client_secret" {
+
+}
+
 # Velero
 
 variable "backup_resource_group_name" {
