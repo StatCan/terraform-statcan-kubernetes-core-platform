@@ -153,6 +153,8 @@ grafana:
       repository: ${local.repositories.dockerhub}kiwigrid/k8s-sidecar
 
   grafana.ini:
+    server:
+      root_url: https://grafana.${var.ingress_domain}
     auth.ldap:
       enabled: false
     auth.azuread:
