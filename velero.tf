@@ -113,13 +113,14 @@ configuration:
   # Parameters for the `default` BackupStorageLocation. See
   # https://velero.io/docs/v1.0.0/api-types/backupstoragelocation/
   backupStorageLocation:
-    name: default
+    name: ${var.cluster_name}
+    default: true
   # Parameters for the `default` VolumeSnapshotLocation. See
   # https://velero.io/docs/v1.0.0/api-types/volumesnapshotlocation/
   volumeSnapshotLocation:
     # Cloud provider where volume snapshots are being taken. Usually
     # should match `configuration.provider`. Required.,
-    name: default
+    name: ${var.cluster_name}
     config:
       resourceGroup: ${var.backup_resource_group_name}
 
@@ -132,6 +133,9 @@ schedules:
       includedNamespaces:
       - '*'
       snapshotVolumes: false
+      storageLocation: ${var.cluster_name}
+      volumeSnapshotLocations:
+      - ${var.cluster_name}
       ttl: 720h0m0s
 EOF
 }
