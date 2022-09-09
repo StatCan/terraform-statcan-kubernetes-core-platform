@@ -48,10 +48,11 @@ module "vault_agent" {
 injector:
   image:
     repository: "${local.repositories.dockerhub}hashicorp/vault-k8s"
-    tag: "0.10.1"
+    tag: "0.16.1"
 
   externalVaultAddr: ${var.vault_address}
   authPath: auth/${var.cluster_name}
+  revokeOnShutdown: true
 EOF
 }
 
