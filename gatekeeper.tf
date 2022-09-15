@@ -48,7 +48,7 @@ module "gatekeeper" {
   helm_repository_username = var.platform_helm_repository_username
   helm_repository_password = var.platform_helm_repository_password
 
-  chart_version = "3.6.0"
+  chart_version = "3.8.1"
 
   namespace = kubernetes_namespace.gatekeeper_system.id
   image_hub = local.repositories.dockerhub
