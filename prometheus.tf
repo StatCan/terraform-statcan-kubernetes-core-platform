@@ -49,7 +49,7 @@ module "prometheus" {
     helm = helm
   }
 
-  source = "git::https://github.com/canada-ca-terraform-modules/terraform-kubernetes-kube-prometheus-stack?ref=v2.0.0"
+  source = "git::https://github.com/canada-ca-terraform-modules/terraform-kubernetes-kube-prometheus-stack?ref=v2.0.8"
 
   chart_version = "36.2.1"
   depends_on = [
@@ -232,10 +232,13 @@ prometheus:
     additionalAlertManagerConfigs:
     - scheme: https
       static_configs:
-      - targets: ['alertmanager.${var.ingress_domain}']
+      - targets: ${jsonencode(flatten([join("", ["alertmanager.", var.ingress_domain]), var.additional_alertmanagers]))}
     additionalAlertRelabelConfigs:
     - source_labels: [severity]
       regex: '(info|warning|critical)'
+      action: drop
+    - source_labels: [alertname]
+      regex: 'InfoInhibitor'
       action: drop
 
 alertmanager:
