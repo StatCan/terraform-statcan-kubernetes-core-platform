@@ -38,8 +38,9 @@ module "namespace_gatekeeper_system" {
 }
 
 module "gatekeeper" {
-  source = "git::https://github.com/statcan/terraform-kubernetes-open-policy-agent.git?ref=v3.x"
+  source = "git::https://github.com/statcan/terraform-kubernetes-open-policy-agent.git?ref=v4.1.0"
 
+  chart_version = "3.9.0"
   depends_on = [
     kubernetes_namespace.gatekeeper_system
   ]
@@ -47,8 +48,6 @@ module "gatekeeper" {
   helm_repository          = lookup(var.platform_helm_repositories, "gatekeeper", "https://open-policy-agent.github.io/gatekeeper/charts")
   helm_repository_username = var.platform_helm_repository_username
   helm_repository_password = var.platform_helm_repository_password
-
-  chart_version = "3.8.1"
 
   namespace = kubernetes_namespace.gatekeeper_system.id
   image_hub = local.repositories.dockerhub
@@ -76,6 +75,8 @@ controllerManager:
   tolerations:
     - key: CriticalAddonsOnly
       operator: Exists
+  # exemptNamespaces:
+  #   - kube-system
 
 audit:
   tolerations:
