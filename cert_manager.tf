@@ -61,6 +61,8 @@ module "cert_manager" {
   helm_repository_username = var.platform_helm_repository_username
   helm_repository_password = var.platform_helm_repository_password
 
+  chart_version = "1.9.1"
+
   values = <<EOF
 global:
   imagePullSecrets:
