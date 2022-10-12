@@ -41,7 +41,7 @@ module "kubecost" {
 
   source = "git::https://github.com/statcan/terraform-kubernetes-kubecost.git?ref=v3.1.0"
 
-  chart_version = "1.92.0"
+  chart_version = "1.97.0"
   depends_on = [
     kubernetes_namespace.kubecost_system
   ]
