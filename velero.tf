@@ -107,6 +107,11 @@ kubectl:
   image:
     repository: ${local.repositories.dockerhub}bitnami/kubectl
 
+# Prometheus Operator ServiceMonitor for Velero metrics
+metrics:
+  serviceMonitor:
+    enabled: true
+
 configuration:
   # Cloud provider being used (e.g. aws, azure, gcp).
   provider: azure
