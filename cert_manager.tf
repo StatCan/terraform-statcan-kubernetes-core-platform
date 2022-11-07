@@ -100,6 +100,17 @@ podDnsConfig:
     # (https://www.cira.ca/cybersecurity-services/canadian-shield)
     - 149.112.121.10
     - 149.112.122.10
+
+# Enable metrics scraping
+prometheus:
+  enabled: true
+  servicemonitor:
+    enabled: true
+    # prometheusInstance: default
+    # interval: 60s
+    # scrapeTimeout: 30s
+    # labels: {}
+    # honorLabels: false
 EOF
 }
 

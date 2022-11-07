@@ -49,7 +49,7 @@ module "prometheus" {
     helm = helm
   }
 
-  source = "git::https://github.com/canada-ca-terraform-modules/terraform-kubernetes-kube-prometheus-stack?ref=v2.0.8"
+  source = "git::https://github.com/canada-ca-terraform-modules/terraform-kubernetes-kube-prometheus-stack?ref=v2.1.0"
 
   chart_version = "36.2.1"
   depends_on = [
