@@ -241,6 +241,9 @@ prometheus:
       regex: 'InfoInhibitor'
       action: drop
 
+    resources:
+      ${indent(6, yamlencode(var.prometheus_resources))}
+
     ## If true, a nil or {} value for prometheus.prometheusSpec.serviceMonitorSelector will cause the
     ## prometheus resource to be created with selectors based on values in the helm deployment,
     ## which will also match the servicemonitors created
