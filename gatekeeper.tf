@@ -40,7 +40,7 @@ module "namespace_gatekeeper_system" {
 module "gatekeeper" {
   source = "git::https://github.com/statcan/terraform-kubernetes-open-policy-agent.git?ref=v4.1.0"
 
-  chart_version = "3.9.0"
+  chart_version = "3.10.0"
   depends_on = [
     kubernetes_namespace.gatekeeper_system
   ]
@@ -68,6 +68,7 @@ module "gatekeeper" {
   values = <<EOF
 auditChunkSize: 500
 auditMatchKindOnly: true
+maxServingThreads: 4
 
 logLevel: WARNING
 
