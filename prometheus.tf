@@ -44,6 +44,10 @@ module "namespace_prometheus_system" {
   dependencies = []
 }
 
+locals {
+  grafana_host = "grafana.${var.ingress_domain}"
+}
+
 module "prometheus" {
   providers = {
     helm = helm
@@ -140,7 +144,7 @@ grafana:
   ingress:
     enabled: true
     hosts:
-      - grafana.${var.ingress_domain}
+      - ${local.grafana_host}
     annotations: {}
     ingressClassName: ""
 
@@ -154,7 +158,7 @@ grafana:
 
   grafana.ini:
     server:
-      root_url: https://grafana.${var.ingress_domain}
+      root_url: https://${local.grafana_host}
     auth.ldap:
       enabled: false
     auth.azuread:
