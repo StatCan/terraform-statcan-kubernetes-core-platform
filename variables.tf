@@ -239,11 +239,25 @@ variable "prometheus_disk_size" {
   default = "80Gi"
 }
 
+variable "prometheus_resources" {
+  description = "The limits and requests to set on the Prometheus pod."
+  type = object({
+    limits   = map(string),
+    requests = map(string),
+  })
+  default = {
+    limits   = {},
+    requests = {},
+  }
+}
+
 variable "additional_alertmanagers" {
   description = "List of additional Alertmanager targets for the Platform Prometheus"
   type        = list(string)
   default     = []
 }
+
+# FluentD
 
 variable "global_fluentd_config" {
   description = "Global Fluentd config, usually used to define the default plugin"
