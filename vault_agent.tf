@@ -34,7 +34,7 @@ module "namespace_vault_agent_system" {
 }
 
 module "vault_agent" {
-  source = "git::https://github.com/statcan/terraform-kubernetes-vault-agent.git?ref=v1.0.0"
+  source = "git::https://github.com/statcan/terraform-kubernetes-vault-agent.git?ref=main"
 
   depends_on = []
 
@@ -45,13 +45,10 @@ module "vault_agent" {
   helm_repository_password = var.platform_helm_repository_password
 
   values = <<EOF
-global:
-  enabled: false
 injector:
-  enabled: true
   image:
     repository: "${local.repositories.dockerhub}hashicorp/vault-k8s"
-    tag: "1.0.0"
+    tag: "0.16.1"
 
   externalVaultAddr: ${var.vault_address}
   authPath: auth/${var.cluster_name}
