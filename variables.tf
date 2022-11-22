@@ -105,6 +105,11 @@ variable "cert_manager_hosted_zone_name" {
 
 # gatekeeper controller pods
 
+variable "gk_replicas" {
+  description = "The number of replicas of gatekeeper controller pods"
+  default     = "3"
+}
+
 variable "gk_limits_cpu" {
   description = "max cpu allocated for gatekeeper controller pods"
   default     = "1000m"

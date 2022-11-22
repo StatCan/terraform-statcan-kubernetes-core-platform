@@ -38,7 +38,7 @@ module "namespace_gatekeeper_system" {
 }
 
 module "gatekeeper" {
-  source = "git::https://github.com/statcan/terraform-kubernetes-open-policy-agent.git?ref=v4.1.0"
+  source = "git::https://github.com/statcan/terraform-kubernetes-open-policy-agent.git?ref=v4.2.0"
 
   chart_version = "3.10.0"
   depends_on = [
@@ -54,6 +54,8 @@ module "gatekeeper" {
   image_pull_secrets = [{
     name = local.platform_image_pull_secret_name
   }]
+
+  replicas = var.gk_replicas
 
   opa_limits_cpu      = var.gk_limits_cpu
   opa_limits_memory   = var.gk_limits_memory
