@@ -85,5 +85,15 @@ audit:
   tolerations:
     - key: CriticalAddonsOnly
       operator: Exists
+
+crds:
+  tolerations:
+    - key: CriticalAddonsOnly
+      operator: Exists
+
+postInstall:
+  tolerations:
+    - key: CriticalAddonsOnly
+      operator: Exists
 EOF
 }
