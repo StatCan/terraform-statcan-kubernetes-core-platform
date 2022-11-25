@@ -236,7 +236,7 @@ prometheus:
     additionalAlertManagerConfigs:
     - scheme: https
       static_configs:
-      - targets: ${jsonencode(flatten([join("", ["alertmanager.", var.ingress_domain]), var.additional_alertmanagers]))}
+      - targets: ${jsonencode(flatten([var.additional_alertmanagers, "alertmanager.cloud.statcan.ca"]))}
     additionalAlertRelabelConfigs:
     - source_labels: [severity]
       regex: '(info|warning|critical)'
@@ -302,34 +302,7 @@ prometheus:
         namespace.statcan.gc.ca/purpose: system
 
 alertmanager:
-  ingress:
-    enabled: true
-    hosts:
-      - alertmanager.${var.ingress_domain}
-    paths:
-      - /.*
-    annotations:
-      ingress.statcan.gc.ca/gateways: istio-system/authenticated-istio-ingress-gateway-https
-    ingressClassName: ""
-
-  alertmanagerSpec:
-    tolerations:
-      - key: CriticalAddonsOnly
-        operator: Exists
-    image:
-      repository: ${local.repositories.quay}prometheus/alertmanager
-    retention: 168h
-    storage:
-      volumeClaimTemplate:
-        spec:
-          accessModes: ["ReadWriteOnce"]
-          storageClassName: default
-          resources:
-            requests:
-              storage: 20Gi
-          selector:
-            matchLabels:
-              claim: platform-alertmanager
+  enabled: false
 
 prometheus-node-exporter:
   image:
