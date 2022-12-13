@@ -55,7 +55,7 @@ module "fluentd" {
   values = <<EOF
 image:
   repository: vmware/kube-fluentd-operator
-  tag: v1.15.3
+  tag: v1.16.5
 
 fluentd:
   resources:
