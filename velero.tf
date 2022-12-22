@@ -128,6 +128,7 @@ configuration:
     name: ${var.cluster_name}
     config:
       resourceGroup: ${var.backup_resource_group_name}
+      incremental: true
 
 # Backup schedules to create.
 schedules:
