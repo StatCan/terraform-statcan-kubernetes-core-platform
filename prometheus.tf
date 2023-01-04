@@ -196,10 +196,12 @@ prometheus:
     enabled: true
     ingressClassName: ingress-istio-controller
     hosts:
-      - prometheus.${var.ingress_domain}
+      - ${local.grafana_host}
     paths:
       - /
     pathType: Prefix
+    annotations:
+      ingress.statcan.gc.ca/gateways: istio-system/authenticated-istio-ingress-gateway-https
 
   prometheusSpec:
     image:
