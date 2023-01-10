@@ -141,7 +141,7 @@ grafana:
 
   ingress:
     enabled: true
-    ingressClassName: ingress-istio-controller
+    ingressClassName: ${var.ingress_class_name}
     hosts:
       - ${local.grafana_host}
     path: /
@@ -194,7 +194,7 @@ grafana:
 prometheus:
   ingress:
     enabled: true
-    ingressClassName: ingress-istio-controller
+    ingressClassName: ${var.ingress_class_name}
     hosts:
       - prometheus.${var.ingress_domain}
     paths:
