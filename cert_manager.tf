@@ -52,6 +52,8 @@ module "cert_manager_identity" {
 module "cert_manager" {
   source = "git::https://github.com/statcan/terraform-kubernetes-cert-manager.git?ref=v3.x"
 
+  chart_version = "1.11.0"
+
   depends_on = [
     module.cert_manager_identity
   ]
@@ -60,8 +62,6 @@ module "cert_manager" {
   helm_repository          = lookup(var.platform_helm_repositories, "cert-manager", "https://charts.jetstack.io")
   helm_repository_username = var.platform_helm_repository_username
   helm_repository_password = var.platform_helm_repository_password
-
-  chart_version = "1.9.1"
 
   values = <<EOF
 global:
@@ -115,7 +115,7 @@ EOF
 }
 
 module "cert_manager_letsencrypt_staging" {
-  source = "git::https://github.com/statcan/terraform-kubernetes-cert-manager-issuer.git?ref=v1.1.0"
+  source = "git::https://github.com/statcan/terraform-kubernetes-cert-manager-issuer.git?ref=v1.2.0"
 
   depends_on = [
     module.cert_manager
@@ -123,7 +123,7 @@ module "cert_manager_letsencrypt_staging" {
 
   name                                    = "letsencrypt-staging"
   namespace                               = kubernetes_namespace.cert_manager_system.id
-  acme_email                              = "zachary.seguin@canada.ca"
+  acme_email                              = "statcan.cwmd-csep-cns-dimct-pasi-sin.statcan@statcan.gc.ca"
   acme_dns01_azuredns_subscription_id     = var.cert_manager_subscription_id
   acme_dns01_azuredns_resource_group_name = var.cert_manager_resource_group_name
   acme_dns01_azuredns_hosted_zone_name    = var.cert_manager_hosted_zone_name
@@ -133,7 +133,7 @@ module "cert_manager_letsencrypt_staging" {
 }
 
 module "cert_manager_letsencrypt" {
-  source = "git::https://github.com/statcan/terraform-kubernetes-cert-manager-issuer.git?ref=v1.1.0"
+  source = "git::https://github.com/statcan/terraform-kubernetes-cert-manager-issuer.git?ref=v1.2.0"
 
   depends_on = [
     module.cert_manager
@@ -141,7 +141,7 @@ module "cert_manager_letsencrypt" {
 
   name                                    = "letsencrypt"
   namespace                               = kubernetes_namespace.cert_manager_system.id
-  acme_email                              = "zachary.seguin@canada.ca"
+  acme_email                              = "statcan.cwmd-csep-cns-dimct-pasi-sin.statcan@statcan.gc.ca"
   acme_dns01_azuredns_subscription_id     = var.cert_manager_subscription_id
   acme_dns01_azuredns_resource_group_name = var.cert_manager_resource_group_name
   acme_dns01_azuredns_hosted_zone_name    = var.cert_manager_hosted_zone_name
