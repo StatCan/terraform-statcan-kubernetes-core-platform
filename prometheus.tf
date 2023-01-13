@@ -126,8 +126,6 @@ prometheusOperator:
   prometheusConfigReloaderImage:
     repository: ${local.repositories.quay}prometheus-operator/prometheus-config-reloader
 
-# NOTE ingress.ingressClassName will need to be set on kubernetes >=1.18
-# REF https://kubernetes.io/blog/2020/04/02/improvements-to-the-ingress-api-in-kubernetes-1.18/#specifying-the-class-of-an-ingress
 grafana:
   adminPassword: ${random_password.grafana_admin_password.result}
 
@@ -143,10 +141,11 @@ grafana:
 
   ingress:
     enabled: true
+    ingressClassName: ${var.ingress_class_name}
     hosts:
       - ${local.grafana_host}
-    annotations: {}
-    ingressClassName: ""
+    path: /
+    pathType: Prefix
 
   sidecar:
     dashboards:
@@ -192,18 +191,17 @@ grafana:
       mountPath: /etc/secrets/auth_azuread
       readOnly: true
 
-# NOTE ingress.ingressClassName will need to be set on kubernetes >=1.18
-# REF https://kubernetes.io/blog/2020/04/02/improvements-to-the-ingress-api-in-kubernetes-1.18/#specifying-the-class-of-an-ingress
 prometheus:
   ingress:
     enabled: true
+    ingressClassName: ${var.ingress_class_name}
     hosts:
       - prometheus.${var.ingress_domain}
     paths:
-      - /.*
+      - /
+    pathType: Prefix
     annotations:
       ingress.statcan.gc.ca/gateways: istio-system/authenticated-istio-ingress-gateway-https
-    ingressClassName: ""
 
   prometheusSpec:
     image:

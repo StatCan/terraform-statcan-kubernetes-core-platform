@@ -262,6 +262,12 @@ variable "additional_alertmanagers" {
   default     = []
 }
 
+variable "ingress_class_name" {
+  description = "The name of the IngressClass cluster resource"
+  type        = string
+  default     = "ingress-istio-controller"
+}
+
 # FluentD
 
 variable "global_fluentd_config" {
