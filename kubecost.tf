@@ -41,7 +41,7 @@ module "kubecost" {
 
   source = "git::https://github.com/statcan/terraform-kubernetes-kubecost.git?ref=v3.1.0"
 
-  chart_version = "1.97.0"
+  chart_version = "1.99.0"
   depends_on = [
     kubernetes_namespace.kubecost_system
   ]
@@ -101,11 +101,12 @@ kubecostProductConfigs:
   currencyCode: "CAD"
   azureBillingRegion: CA
   azureSubscriptionID: ${var.subscription_id}
+  azureTenantID: ${var.tenant_id}
   azureClientID: ${var.kubecost_client_id}
   azureClientPassword: ${var.kubecost_client_secret}
   azureOfferDurableID: MS-AZR-0017P
-  azureTenantID: ${var.tenant_id}
-  createServiceKeySecret: true
+  createServiceKeySecret: false
+  serviceKeySecretName: cloud-service-key
   grafanaURL: https://grafana.${var.ingress_domain}
   productKey:
     enabled: true
