@@ -100,10 +100,6 @@ kubecostProductConfigs:
   clusterProfile: ${var.kubecost_cluster_profile}
   currencyCode: "CAD"
   azureBillingRegion: CA
-  azureSubscriptionID: ${var.subscription_id}
-  azureTenantID: ${var.tenant_id}
-  azureClientID: ${var.kubecost_client_id}
-  azureClientPassword: ${var.kubecost_client_secret}
   azureOfferDurableID: MS-AZR-0017P
   createServiceKeySecret: false
   serviceKeySecretName: cloud-service-key
