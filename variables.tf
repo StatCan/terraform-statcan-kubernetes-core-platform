@@ -45,15 +45,21 @@ variable "platform_image_repository" {
 }
 
 variable "platform_image_repository_username" {
-  default = ""
+  default     = ""
+  description = "The username for the repository where the image is stored"
+  sensitive   = true
 }
 
 variable "platform_image_repository_password" {
-  default = ""
+  default     = ""
+  description = "The password for the repository where the image is stored"
+  sensitive   = true
 }
 
 variable "platform_image_repository_email" {
-  default = ""
+  default     = ""
+  description = "The email for the repository where the image is stored"
+  sensitive   = true
 }
 
 variable "platform_image_repository_auth" {
@@ -71,11 +77,15 @@ variable "platform_helm_repositories" {
 }
 
 variable "platform_helm_repository_username" {
-  default = ""
+  default     = ""
+  description = "The username of the repository where the Helm chart is stored"
+  sensitive   = true
 }
 
 variable "platform_helm_repository_password" {
-  default = ""
+  default     = ""
+  description = "The password of the repository where the Helm chart is stored"
+  sensitive   = true
 }
 
 variable "ingress_domain" {
@@ -159,6 +169,7 @@ variable "grafana_client_id" {
 }
 
 variable "grafana_client_secret" {
+  sensitive = true
 
 }
 
@@ -197,19 +208,19 @@ variable "kubecost_cluster_profile" {
 }
 
 variable "kubecost_token" {
-
-}
-
-variable "kubecost_client_id" {
-
-}
-
-variable "kubecost_client_secret" {
-
+  sensitive = true
 }
 
 variable "kubecost_product_key" {
+  sensitive = true
+}
 
+variable "kubecost_client_id" {
+  sensitive = true
+}
+
+variable "kubecost_client_secret" {
+  sensitive = true
 }
 
 variable "kubecost_prometheus_node_selector" {
@@ -223,6 +234,7 @@ variable "kubecost_storage_account" {
 }
 
 variable "kubecost_storage_access_key" {
+  sensitive = true
 
 }
 
