@@ -274,6 +274,24 @@ variable "additional_alertmanagers" {
   default     = []
 }
 
+variable "prometheus_additional_scrape_config" {
+  description = "Default additional scrape configuration for prometheus"
+
+  default = <<EOF
+- job_name: kubecost
+  honor_labels: true
+  scrape_interval: 1m
+  scrape_timeout: 10s
+  metrics_path: /metrics
+  scheme: http
+  dns_sd_configs:
+  - names:
+    - kubecost-cost-analyzer.kubecost-system
+    type: 'A'
+    port: 9003
+EOF
+}
+
 variable "ingress_class_name" {
   description = "The name of the IngressClass cluster resource"
   type        = string
