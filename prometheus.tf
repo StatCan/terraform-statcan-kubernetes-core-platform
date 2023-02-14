@@ -219,18 +219,8 @@ prometheus:
               claim: platform-prometheus
     externalLabels:
       cluster: ${var.cluster_name}
-    additionalScrapeConfigs:
-    - job_name: kubecost
-      honor_labels: true
-      scrape_interval: 1m
-      scrape_timeout: 10s
-      metrics_path: /metrics
-      scheme: http
-      dns_sd_configs:
-      - names:
-        - kubecost-cost-analyzer.kubecost-system
-        type: 'A'
-        port: 9003
+    additionalScrapeConfigs: 
+    ${trimspace(indent(4, var.prometheus_additional_scrape_config))}
     additionalAlertManagerConfigs:
     - scheme: https
       static_configs:
