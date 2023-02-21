@@ -50,7 +50,7 @@ module "cert_manager_identity" {
 }
 
 module "cert_manager" {
-  source = "git::https://github.com/statcan/terraform-kubernetes-cert-manager.git?ref=v3.x"
+  source = "git::https://github.com/statcan/terraform-kubernetes-cert-manager.git?ref=v5.5.0"
 
   chart_version = "1.11.0"
 
@@ -62,6 +62,15 @@ module "cert_manager" {
   helm_repository          = lookup(var.platform_helm_repositories, "cert-manager", "https://charts.jetstack.io")
   helm_repository_username = var.platform_helm_repository_username
   helm_repository_password = var.platform_helm_repository_password
+
+  enable_prometheusrules = true
+  deploy_cluster_issuers = false
+
+  azure_zone_name           = ""
+  azure_resource_group_name = ""
+  azure_subscription_id     = ""
+
+  letsencrypt_email = ""
 
   values = <<EOF
 global:

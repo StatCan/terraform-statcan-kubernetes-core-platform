@@ -50,7 +50,7 @@ module "velero_identity" {
 }
 
 module "velero" {
-  source = "git::https://github.com/statcan/terraform-kubernetes-velero.git?ref=v4.x"
+  source = "git::https://github.com/statcan/terraform-kubernetes-velero.git?ref=v5.2.1"
 
   chart_version = "2.30.2"
   depends_on = [
@@ -71,6 +71,8 @@ module "velero" {
   azure_resource_group  = var.cluster_node_resource_group_name
   azure_subscription_id = var.subscription_id
   azure_tenant_id       = var.tenant_id
+
+  enable_prometheusrules = true
 
   values = <<EOF
 image:
