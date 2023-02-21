@@ -53,7 +53,7 @@ module "prometheus" {
     helm = helm
   }
 
-  source = "git::https://github.com/canada-ca-terraform-modules/terraform-kubernetes-kube-prometheus-stack?ref=v2.1.0"
+  source = "git::https://github.com/canada-ca-terraform-modules/terraform-kubernetes-kube-prometheus-stack?ref=v3.3.0"
 
   chart_version = "36.2.1"
   depends_on = [
@@ -65,7 +65,6 @@ module "prometheus" {
   helm_repository_username = var.platform_helm_repository_username
   helm_repository_password = var.platform_helm_repository_password
   enable_destinationrules  = true
-  enable_prometheusrules   = true
 
   values = <<EOF
 # Default values for kube-prometheus-stack.
@@ -75,40 +74,6 @@ module "prometheus" {
 global:
   imagePullSecrets:
   - name: "${local.platform_image_pull_secret_name}"
-
-additionalPrometheusRulesMap:
-  kubecostrules.yml:
-    groups:
-      - name: CPU
-        rules:
-          - expr: sum(rate(container_cpu_usage_seconds_total{container_name!=""}[5m]))
-            record: cluster:cpu_usage:rate5m
-          - expr: rate(container_cpu_usage_seconds_total{container_name!=""}[5m])
-            record: cluster:cpu_usage_nosum:rate5m
-          - expr: avg(irate(container_cpu_usage_seconds_total{container_name!="POD", container_name!=""}[5m])) by (container_name,pod_name,namespace)
-            record: kubecost_container_cpu_usage_irate
-          - expr: sum(container_memory_working_set_bytes{container_name!="POD",container_name!=""}) by (container_name,pod_name,namespace)
-            record: kubecost_container_memory_working_set_bytes
-          - expr: sum(container_memory_working_set_bytes{container_name!="POD",container_name!=""})
-            record: kubecost_cluster_memory_working_set_bytes
-      - name: Savings
-        rules:
-          - expr: sum(avg(kube_pod_owner{owner_kind!="DaemonSet"}) by (pod) * sum(container_cpu_allocation) by (pod))
-            record: kubecost_savings_cpu_allocation
-            labels:
-              daemonset: "false"
-          - expr: sum(avg(kube_pod_owner{owner_kind="DaemonSet"}) by (pod) * sum(container_cpu_allocation) by (pod)) / sum(kube_node_info)
-            record: kubecost_savings_cpu_allocation
-            labels:
-              daemonset: "true"
-          - expr: sum(avg(kube_pod_owner{owner_kind!="DaemonSet"}) by (pod) * sum(container_memory_allocation_bytes) by (pod))
-            record: kubecost_savings_memory_allocation_bytes
-            labels:
-              daemonset: "false"
-          - expr: sum(avg(kube_pod_owner{owner_kind="DaemonSet"}) by (pod) * sum(container_memory_allocation_bytes) by (pod)) / sum(kube_node_info)
-            record: kubecost_savings_memory_allocation_bytes
-            labels:
-              daemonset: "true"
 
 prometheusOperator:
   tolerations:
@@ -288,6 +253,20 @@ prometheus:
     probeNamespaceSelector:
       matchLabels:
         namespace.statcan.gc.ca/purpose: system
+    
+    ## Namespaces to be selected for PrometheusRules discovery.
+    ## If nil, select own namespace. Namespaces to be selected for ServiceMonitor discovery.
+    ## See https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/api.md#namespaceselector for usage
+    ##
+    ruleNamespaceSelector:
+      matchLabels:
+        namespace.statcan.gc.ca/purpose: system
+
+    ## If true, a nil or {} value for prometheus.prometheusSpec.ruleSelector will cause the
+    ## prometheus resource to be created with selectors based on values in the helm deployment,
+    ## which will also match the PrometheusRule resources created
+    ##
+    ruleSelectorNilUsesHelmValues: false
 
 alertmanager:
   enabled: false

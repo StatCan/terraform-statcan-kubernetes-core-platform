@@ -39,7 +39,7 @@ module "kubecost" {
     helm = helm
   }
 
-  source = "git::https://github.com/statcan/terraform-kubernetes-kubecost.git?ref=v3.1.0"
+  source = "git::https://github.com/statcan/terraform-kubernetes-kubecost.git?ref=v3.2.0"
 
   chart_version = "1.99.0"
   depends_on = [
