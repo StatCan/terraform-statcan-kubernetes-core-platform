@@ -38,7 +38,7 @@ module "namespace_fluentd_system" {
 }
 
 module "fluentd" {
-  source = "git::https://github.com/statcan/terraform-kubernetes-fluentd.git?ref=v3.0.0"
+  source = "git::https://github.com/statcan/terraform-kubernetes-fluentd.git?ref=v3.0.1"
 
   depends_on = [
     kubernetes_namespace.fluentd_system
@@ -48,7 +48,7 @@ module "fluentd" {
   helm_repository_username = var.platform_helm_repository_username
   helm_repository_password = var.platform_helm_repository_password
 
-  chart_version = "0.4.4"
+  chart_version = "0.5.1"
 
   helm_namespace = kubernetes_namespace.fluentd_system.id
 
