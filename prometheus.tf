@@ -55,7 +55,7 @@ module "prometheus" {
 
   source = "git::https://github.com/canada-ca-terraform-modules/terraform-kubernetes-kube-prometheus-stack?ref=v3.3.0"
 
-  chart_version = "36.2.1"
+  chart_version = "43.3.0"
   depends_on = [
     kubernetes_namespace.prometheus_system
   ]
@@ -85,11 +85,14 @@ prometheusOperator:
       - key: CriticalAddonsOnly
         operator: Exists
       image:
-        repository: ${local.repositories.k8sreg}ingress-nginx/kube-webhook-certgen
+        registry: ${trimsuffix(local.repositories.k8sreg, "/")}
+        repository: ingress-nginx/kube-webhook-certgen
   image:
-    repository: ${local.repositories.quay}prometheus-operator/prometheus-operator
+    registry: ${trimsuffix(local.repositories.quay, "/")}
+    repository: prometheus-operator/prometheus-operator
   prometheusConfigReloaderImage:
-    repository: ${local.repositories.quay}prometheus-operator/prometheus-config-reloader
+    registry: ${trimsuffix(local.repositories.quay, "/")}
+    repository: prometheus-operator/prometheus-config-reloader
 
 grafana:
   adminPassword: ${random_password.grafana_admin_password.result}
@@ -170,7 +173,8 @@ prometheus:
 
   prometheusSpec:
     image:
-      repository: ${local.repositories.quay}prometheus/prometheus
+      registry: ${trimsuffix(local.repositories.quay, "/")}
+      repository: prometheus/prometheus
     storageSpec:
       volumeClaimTemplate:
         spec:
@@ -189,7 +193,16 @@ prometheus:
     additionalAlertManagerConfigs:
     - scheme: https
       static_configs:
-      - targets: ${jsonencode(flatten([var.additional_alertmanagers, "alertmanager.cloud.statcan.ca"]))}
+      - targets: 
+        - alertmanager-0.cloud.statcan.ca
+        - alertmanager-1.cloud.statcan.ca
+## Construct additional entries using regex with 2 capture groups: http or https (the only acceptable values) for the scheme and the FQDN for the target
+%{for alertmanager in var.additional_alertmanagers~}
+    - scheme: ${regex("^(http|https)://(.+)", alertmanager)[0]}
+      static_configs:
+      - targets:
+        - ${regex("^(http|https)://(.+)", alertmanager)[1]}
+%{endfor~}
     additionalAlertRelabelConfigs:
     - source_labels: [severity]
       regex: '(info|warning|critical)'

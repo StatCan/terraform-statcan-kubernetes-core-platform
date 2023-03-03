@@ -269,9 +269,17 @@ variable "prometheus_resources" {
 }
 
 variable "additional_alertmanagers" {
-  description = "List of additional Alertmanager targets for the Platform Prometheus"
+  description = "List of additional Alertmanager target URLs for the Platform Prometheus"
   type        = list(string)
   default     = []
+
+  validation {
+    condition = alltrue([
+      for alertmanager in var.additional_alertmanagers : can(regex("^(http|https)://.+", alertmanager))
+    ])
+
+    error_message = "Must be a list of one or more URLs. Example: [\"http://my-svc:9093\", \"https://example-alertmanager.com\"]."
+  }
 }
 
 variable "prometheus_additional_scrape_config" {
