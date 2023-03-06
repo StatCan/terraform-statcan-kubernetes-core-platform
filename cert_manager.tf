@@ -124,7 +124,7 @@ EOF
 }
 
 module "cert_manager_letsencrypt_staging" {
-  source = "git::https://github.com/statcan/terraform-kubernetes-cert-manager-issuer.git?ref=v1.2.0"
+  source = "git::https://github.com/statcan/terraform-kubernetes-cert-manager-issuer.git?ref=v1.3.0"
 
   depends_on = [
     module.cert_manager
@@ -142,7 +142,7 @@ module "cert_manager_letsencrypt_staging" {
 }
 
 module "cert_manager_letsencrypt" {
-  source = "git::https://github.com/statcan/terraform-kubernetes-cert-manager-issuer.git?ref=v1.2.0"
+  source = "git::https://github.com/statcan/terraform-kubernetes-cert-manager-issuer.git?ref=v1.3.0"
 
   depends_on = [
     module.cert_manager
