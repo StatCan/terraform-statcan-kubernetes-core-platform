@@ -75,5 +75,9 @@ tolerations:
 
 rbac:
   create: yes
+
+logLevel: info
+fluentdLogLevel: info
+
 EOF
 }
