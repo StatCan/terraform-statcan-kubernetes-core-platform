@@ -64,7 +64,7 @@ global:
     alertConfigs:
       globalSlackWebhookUrl: ${var.kubecost_alert_slack_webhook_url}
       alerts:
-      ${trimspace(indent(8, var.kubecost_additional_alert_config))}
+        ${trimspace(indent(8, var.kubecost_additional_alert_config))}
 
 kubecostToken: "${var.kubecost_token}"
 imagePullSecrets:
