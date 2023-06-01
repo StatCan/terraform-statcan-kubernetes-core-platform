@@ -38,7 +38,8 @@ resource "helm_release" "kubernetes_event_exporter" {
   name      = "kubernetes-event-exporter"
   namespace = kubernetes_namespace.event_logging_system.metadata[0].name
 
-  repository          = "https://artifactory.cloud.statcan.ca/artifactory/helm-kubernetes-event-exporter-remote"
+  repository = lookup(var.platform_helm_repositories, "kubernetes-event-exporter", "https://resmoio.github.io/kubernetes-event-exporter")
+
   repository_username = var.platform_helm_repository_username
   repository_password = var.platform_helm_repository_password
 
