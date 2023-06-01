@@ -188,12 +188,12 @@ prometheus:
               claim: platform-prometheus
     externalLabels:
       cluster: ${var.cluster_name}
-    additionalScrapeConfigs: 
+    additionalScrapeConfigs:
     ${trimspace(indent(4, var.prometheus_additional_scrape_config))}
     additionalAlertManagerConfigs:
     - scheme: https
       static_configs:
-      - targets: 
+      - targets:
         - alertmanager-0.cloud.statcan.ca
         - alertmanager-1.cloud.statcan.ca
 ## Construct additional entries using regex with 2 capture groups: http or https (the only acceptable values) for the scheme and the FQDN for the target
@@ -266,7 +266,7 @@ prometheus:
     probeNamespaceSelector:
       matchLabels:
         namespace.statcan.gc.ca/purpose: system
-    
+
     ## Namespaces to be selected for PrometheusRules discovery.
     ## If nil, select own namespace. Namespaces to be selected for ServiceMonitor discovery.
     ## See https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/api.md#namespaceselector for usage
