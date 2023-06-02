@@ -9,6 +9,7 @@ locals {
     quay      = lookup(var.platform_image_bases, "quay", "quay.io/")
     k8s       = lookup(var.platform_image_bases, "k8s", "k8s.gcr.io/")
     k8sreg    = lookup(var.platform_image_bases, "k8sreg", "registry.k8s.io/")
+    ghcr      = lookup(var.platform_image_bases, "ghcr", "ghcr.io/")
   }
 
   # The tolerations necessary to run on the AKS system pools.
