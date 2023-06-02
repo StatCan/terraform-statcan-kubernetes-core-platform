@@ -84,14 +84,12 @@ resource "helm_release" "kubernetes_event_exporter" {
     value = "64Mi"
   }
 
-  set {
-    name  = "tolerations"
-    value = jsonencode(local.tolerations)
-  }
-
   values = [<<-EOF
   imagePullSecrets:
     - name: "${local.platform_image_pull_secret_name}"
+  tolerations:
+    - key: CriticalAddonsOnly
+      operator: Exists
 
   config: |
     logLevel: info
