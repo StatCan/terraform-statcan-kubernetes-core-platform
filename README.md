@@ -20,28 +20,28 @@
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_aad_pod_identity"></a> [aad\_pod\_identity](#module\_aad\_pod\_identity) | git::https://github.com/statcan/terraform-kubernetes-aad-pod-identity.git | v3.0.0 |
-| <a name="module_cert_manager"></a> [cert\_manager](#module\_cert\_manager) | git::https://github.com/statcan/terraform-kubernetes-cert-manager.git | v5.5.0 |
-| <a name="module_cert_manager_identity"></a> [cert\_manager\_identity](#module\_cert\_manager\_identity) | git::https://github.com/statcan/terraform-kubernetes-aad-pod-identity-template.git | v2.x |
-| <a name="module_cert_manager_letsencrypt"></a> [cert\_manager\_letsencrypt](#module\_cert\_manager\_letsencrypt) | git::https://github.com/statcan/terraform-kubernetes-cert-manager-issuer.git | v1.3.0 |
-| <a name="module_cert_manager_letsencrypt_staging"></a> [cert\_manager\_letsencrypt\_staging](#module\_cert\_manager\_letsencrypt\_staging) | git::https://github.com/statcan/terraform-kubernetes-cert-manager-issuer.git | v1.3.0 |
-| <a name="module_fluentd"></a> [fluentd](#module\_fluentd) | git::https://github.com/statcan/terraform-kubernetes-fluentd.git | v3.0.1 |
-| <a name="module_gatekeeper"></a> [gatekeeper](#module\_gatekeeper) | git::https://github.com/statcan/terraform-kubernetes-open-policy-agent.git | v4.2.0 |
-| <a name="module_kubecost"></a> [kubecost](#module\_kubecost) | git::https://github.com/statcan/terraform-kubernetes-kubecost.git | v3.2.0 |
-| <a name="module_namespace_aad_pod_identity_system"></a> [namespace\_aad\_pod\_identity\_system](#module\_namespace\_aad\_pod\_identity\_system) | git::https://github.com/canada-ca-terraform-modules/terraform-kubernetes-namespace.git | v2.2.0 |
-| <a name="module_namespace_cert_manager_system"></a> [namespace\_cert\_manager\_system](#module\_namespace\_cert\_manager\_system) | git::https://github.com/canada-ca-terraform-modules/terraform-kubernetes-namespace.git | v2.2.0 |
+| <a name="module_aad_pod_identity"></a> [aad\_pod\_identity](#module\_aad\_pod\_identity) | git::https://gitlab.k8s.cloud.statcan.ca/cloudnative/terraform/modules/terraform-kubernetes-aad-pod-identity.git | v3.0.0 |
+| <a name="module_cert_manager"></a> [cert\_manager](#module\_cert\_manager) | git::https://gitlab.k8s.cloud.statcan.ca/cloudnative/terraform/modules/terraform-kubernetes-cert-manager.git | v5.5.0 |
+| <a name="module_cert_manager_identity"></a> [cert\_manager\_identity](#module\_cert\_manager\_identity) | git::https://gitlab.k8s.cloud.statcan.ca/cloudnative/terraform/modules/terraform-kubernetes-aad-pod-identity-template.git | v2.x |
+| <a name="module_cert_manager_letsencrypt"></a> [cert\_manager\_letsencrypt](#module\_cert\_manager\_letsencrypt) | git::https://gitlab.k8s.cloud.statcan.ca/cloudnative/terraform/modules/terraform-kubernetes-cert-manager-issuer.git | v1.3.0 |
+| <a name="module_cert_manager_letsencrypt_staging"></a> [cert\_manager\_letsencrypt\_staging](#module\_cert\_manager\_letsencrypt\_staging) | git::https://gitlab.k8s.cloud.statcan.ca/cloudnative/terraform/modules/terraform-kubernetes-cert-manager-issuer.git | v1.3.0 |
+| <a name="module_fluentd"></a> [fluentd](#module\_fluentd) | git::https://gitlab.k8s.cloud.statcan.ca/cloudnative/terraform/modules/terraform-kubernetes-fluentd.git | v3.0.1 |
+| <a name="module_gatekeeper"></a> [gatekeeper](#module\_gatekeeper) | git::https://gitlab.k8s.cloud.statcan.ca/cloudnative/terraform/modules/terraform-kubernetes-open-policy-agent.git | v4.3.0 |
+| <a name="module_kubecost"></a> [kubecost](#module\_kubecost) | git::https://gitlab.k8s.cloud.statcan.ca/cloudnative/terraform/modules/terraform-kubernetes-kubecost.git | v3.2.0 |
+| <a name="module_namespace_aad_pod_identity_system"></a> [namespace\_aad\_pod\_identity\_system](#module\_namespace\_aad\_pod\_identity\_system) | git::https://gitlab.k8s.cloud.statcan.ca/cloudnative/terraform/modules/terraform-kubernetes-namespace.git | v2.2.0 |
+| <a name="module_namespace_cert_manager_system"></a> [namespace\_cert\_manager\_system](#module\_namespace\_cert\_manager\_system) | git::https://gitlab.k8s.cloud.statcan.ca/cloudnative/terraform/modules/terraform-kubernetes-namespace.git | v2.2.0 |
 | <a name="module_namespace_event_logging_system"></a> [namespace\_event\_logging\_system](#module\_namespace\_event\_logging\_system) | git::https://gitlab.k8s.cloud.statcan.ca/cloudnative/terraform/modules/terraform-kubernetes-namespace.git | v2.10.1 |
-| <a name="module_namespace_fluentd_system"></a> [namespace\_fluentd\_system](#module\_namespace\_fluentd\_system) | git::https://github.com/canada-ca-terraform-modules/terraform-kubernetes-namespace.git | v2.2.0 |
-| <a name="module_namespace_gatekeeper_system"></a> [namespace\_gatekeeper\_system](#module\_namespace\_gatekeeper\_system) | git::https://github.com/canada-ca-terraform-modules/terraform-kubernetes-namespace.git | v2.2.0 |
-| <a name="module_namespace_kubecost_system"></a> [namespace\_kubecost\_system](#module\_namespace\_kubecost\_system) | git::https://github.com/canada-ca-terraform-modules/terraform-kubernetes-namespace.git | v2.2.0 |
-| <a name="module_namespace_prometheus_system"></a> [namespace\_prometheus\_system](#module\_namespace\_prometheus\_system) | git::https://github.com/canada-ca-terraform-modules/terraform-kubernetes-namespace.git | v2.2.0 |
-| <a name="module_namespace_statcan_system"></a> [namespace\_statcan\_system](#module\_namespace\_statcan\_system) | git::https://github.com/canada-ca-terraform-modules/terraform-kubernetes-namespace.git | v2.2.0 |
-| <a name="module_namespace_vault_agent_system"></a> [namespace\_vault\_agent\_system](#module\_namespace\_vault\_agent\_system) | git::https://github.com/canada-ca-terraform-modules/terraform-kubernetes-namespace.git | v2.2.0 |
-| <a name="module_namespace_velero_system"></a> [namespace\_velero\_system](#module\_namespace\_velero\_system) | git::https://github.com/canada-ca-terraform-modules/terraform-kubernetes-namespace.git | v2.2.0 |
+| <a name="module_namespace_fluentd_system"></a> [namespace\_fluentd\_system](#module\_namespace\_fluentd\_system) | git::https://gitlab.k8s.cloud.statcan.ca/cloudnative/terraform/modules/terraform-kubernetes-namespace.git | v2.2.0 |
+| <a name="module_namespace_gatekeeper_system"></a> [namespace\_gatekeeper\_system](#module\_namespace\_gatekeeper\_system) | git::https://gitlab.k8s.cloud.statcan.ca/cloudnative/terraform/modules/terraform-kubernetes-namespace.git | v2.2.0 |
+| <a name="module_namespace_kubecost_system"></a> [namespace\_kubecost\_system](#module\_namespace\_kubecost\_system) | git::https://gitlab.k8s.cloud.statcan.ca/cloudnative/terraform/modules/terraform-kubernetes-namespace.git | v2.2.0 |
+| <a name="module_namespace_prometheus_system"></a> [namespace\_prometheus\_system](#module\_namespace\_prometheus\_system) | git::https://gitlab.k8s.cloud.statcan.ca/cloudnative/terraform/modules/terraform-kubernetes-namespace.git | v2.2.0 |
+| <a name="module_namespace_statcan_system"></a> [namespace\_statcan\_system](#module\_namespace\_statcan\_system) | git::https://gitlab.k8s.cloud.statcan.ca/cloudnative/terraform/modules/terraform-kubernetes-namespace.git | v2.2.0 |
+| <a name="module_namespace_vault_agent_system"></a> [namespace\_vault\_agent\_system](#module\_namespace\_vault\_agent\_system) | git::https://gitlab.k8s.cloud.statcan.ca/cloudnative/terraform/modules/terraform-kubernetes-namespace.git | v2.2.0 |
+| <a name="module_namespace_velero_system"></a> [namespace\_velero\_system](#module\_namespace\_velero\_system) | git::https://gitlab.k8s.cloud.statcan.ca/cloudnative/terraform/modules/terraform-kubernetes-namespace.git | v2.2.0 |
 | <a name="module_prometheus"></a> [prometheus](#module\_prometheus) | git::https://gitlab.k8s.cloud.statcan.ca/cloudnative/terraform/modules/terraform-kubernetes-kube-prometheus-stack | v3.8.3 |
 | <a name="module_vault_agent"></a> [vault\_agent](#module\_vault\_agent) | git::http://gitlab.k8s.cloud.statcan.ca/cloudnative/terraform/modules/terraform-kubernetes-vault-agent.git | v1.0.1 |
-| <a name="module_velero"></a> [velero](#module\_velero) | git::https://github.com/statcan/terraform-kubernetes-velero.git | v5.2.1 |
-| <a name="module_velero_identity"></a> [velero\_identity](#module\_velero\_identity) | git::https://github.com/statcan/terraform-kubernetes-aad-pod-identity-template.git | v2.x |
+| <a name="module_velero"></a> [velero](#module\_velero) | git::https://gitlab.k8s.cloud.statcan.ca/cloudnative/terraform/modules/terraform-kubernetes-velero.git | v5.2.1 |
+| <a name="module_velero_identity"></a> [velero\_identity](#module\_velero\_identity) | git::https://gitlab.k8s.cloud.statcan.ca/cloudnative/terraform/modules/terraform-kubernetes-aad-pod-identity-template.git | v2.x |
 
 ## Inputs
 

@@ -8,7 +8,7 @@ resource "kubernetes_namespace" "statcan_system" {
 }
 
 module "namespace_statcan_system" {
-  source = "git::https://github.com/canada-ca-terraform-modules/terraform-kubernetes-namespace.git?ref=v2.2.0"
+  source = "git::https://gitlab.k8s.cloud.statcan.ca/cloudnative/terraform/modules/terraform-kubernetes-namespace.git?ref=v2.2.0"
 
   name = kubernetes_namespace.statcan_system.id
   namespace_admins = {

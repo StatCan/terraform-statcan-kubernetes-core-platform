@@ -13,7 +13,7 @@ resource "kubernetes_namespace" "gatekeeper_system" {
 }
 
 module "namespace_gatekeeper_system" {
-  source = "git::https://github.com/canada-ca-terraform-modules/terraform-kubernetes-namespace.git?ref=v2.2.0"
+  source = "git::https://gitlab.k8s.cloud.statcan.ca/cloudnative/terraform/modules/terraform-kubernetes-namespace.git?ref=v2.2.0"
 
   name = kubernetes_namespace.gatekeeper_system.id
   namespace_admins = {
@@ -38,18 +38,13 @@ module "namespace_gatekeeper_system" {
 }
 
 module "gatekeeper" {
-  source = "git::https://github.com/statcan/terraform-kubernetes-open-policy-agent.git?ref=v4.2.0"
-
-  chart_version = "3.10.0"
-  depends_on = [
-    kubernetes_namespace.gatekeeper_system
-  ]
+  source = "git::https://gitlab.k8s.cloud.statcan.ca/cloudnative/terraform/modules/terraform-kubernetes-open-policy-agent.git?ref=v4.3.0"
 
   helm_repository          = lookup(var.platform_helm_repositories, "gatekeeper", "https://open-policy-agent.github.io/gatekeeper/charts")
   helm_repository_username = var.platform_helm_repository_username
   helm_repository_password = var.platform_helm_repository_password
 
-  namespace = kubernetes_namespace.gatekeeper_system.id
+  namespace = kubernetes_namespace.gatekeeper_system.metadata[0].name
   image_hub = local.repositories.dockerhub
   image_pull_secrets = [{
     name = local.platform_image_pull_secret_name
@@ -67,33 +62,9 @@ module "gatekeeper" {
   opa_audit_requests_cpu    = var.gk_audit_requests_cpu
   opa_audit_requests_memory = var.gk_audit_requests_memory
 
+  tolerations = local.tolerations_system_pool
+
   values = <<EOF
-auditChunkSize: 500
-auditMatchKindOnly: true
 maxServingThreads: 4
-
-logLevel: WARNING
-
-controllerManager:
-  tolerations:
-    - key: CriticalAddonsOnly
-      operator: Exists
-  # exemptNamespaces:
-  #   - kube-system
-
-audit:
-  tolerations:
-    - key: CriticalAddonsOnly
-      operator: Exists
-
-crds:
-  tolerations:
-    - key: CriticalAddonsOnly
-      operator: Exists
-
-postInstall:
-  tolerations:
-    - key: CriticalAddonsOnly
-      operator: Exists
 EOF
 }

@@ -11,7 +11,7 @@ resource "kubernetes_namespace" "kubecost_system" {
 }
 
 module "namespace_kubecost_system" {
-  source = "git::https://github.com/canada-ca-terraform-modules/terraform-kubernetes-namespace.git?ref=v2.2.0"
+  source = "git::https://gitlab.k8s.cloud.statcan.ca/cloudnative/terraform/modules/terraform-kubernetes-namespace.git?ref=v2.2.0"
 
   name = kubernetes_namespace.kubecost_system.id
   namespace_admins = {
@@ -39,7 +39,7 @@ module "kubecost" {
     helm = helm
   }
 
-  source = "git::https://github.com/statcan/terraform-kubernetes-kubecost.git?ref=v3.2.0"
+  source = "git::https://gitlab.k8s.cloud.statcan.ca/cloudnative/terraform/modules/terraform-kubernetes-kubecost.git?ref=v3.2.0"
 
   chart_version = "1.99.0"
   depends_on = [

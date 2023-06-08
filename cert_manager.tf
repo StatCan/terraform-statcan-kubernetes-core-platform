@@ -10,7 +10,7 @@ resource "kubernetes_namespace" "cert_manager_system" {
 }
 
 module "namespace_cert_manager_system" {
-  source = "git::https://github.com/canada-ca-terraform-modules/terraform-kubernetes-namespace.git?ref=v2.2.0"
+  source = "git::https://gitlab.k8s.cloud.statcan.ca/cloudnative/terraform/modules/terraform-kubernetes-namespace.git?ref=v2.2.0"
 
   name = kubernetes_namespace.cert_manager_system.id
   namespace_admins = {
@@ -35,7 +35,7 @@ module "namespace_cert_manager_system" {
 }
 
 module "cert_manager_identity" {
-  source = "git::https://github.com/statcan/terraform-kubernetes-aad-pod-identity-template.git?ref=v2.x"
+  source = "git::https://gitlab.k8s.cloud.statcan.ca/cloudnative/terraform/modules/terraform-kubernetes-aad-pod-identity-template.git?ref=v2.x"
 
   depends_on = [
     module.aad_pod_identity
@@ -50,7 +50,7 @@ module "cert_manager_identity" {
 }
 
 module "cert_manager" {
-  source = "git::https://github.com/statcan/terraform-kubernetes-cert-manager.git?ref=v5.5.0"
+  source = "git::https://gitlab.k8s.cloud.statcan.ca/cloudnative/terraform/modules/terraform-kubernetes-cert-manager.git?ref=v5.5.0"
 
   chart_version = "1.11.0"
 
@@ -124,7 +124,7 @@ EOF
 }
 
 module "cert_manager_letsencrypt_staging" {
-  source = "git::https://github.com/statcan/terraform-kubernetes-cert-manager-issuer.git?ref=v1.3.0"
+  source = "git::https://gitlab.k8s.cloud.statcan.ca/cloudnative/terraform/modules/terraform-kubernetes-cert-manager-issuer.git?ref=v1.3.0"
 
   depends_on = [
     module.cert_manager
@@ -142,7 +142,7 @@ module "cert_manager_letsencrypt_staging" {
 }
 
 module "cert_manager_letsencrypt" {
-  source = "git::https://github.com/statcan/terraform-kubernetes-cert-manager-issuer.git?ref=v1.3.0"
+  source = "git::https://gitlab.k8s.cloud.statcan.ca/cloudnative/terraform/modules/terraform-kubernetes-cert-manager-issuer.git?ref=v1.3.0"
 
   depends_on = [
     module.cert_manager

@@ -20,7 +20,7 @@ resource "random_password" "grafana_admin_password" {
 }
 
 module "namespace_prometheus_system" {
-  source = "git::https://github.com/canada-ca-terraform-modules/terraform-kubernetes-namespace.git?ref=v2.2.0"
+  source = "git::https://gitlab.k8s.cloud.statcan.ca/cloudnative/terraform/modules/terraform-kubernetes-namespace.git?ref=v2.2.0"
 
   name = kubernetes_namespace.prometheus_system.id
   namespace_admins = {
