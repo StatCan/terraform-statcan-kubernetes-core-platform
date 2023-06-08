@@ -11,4 +11,11 @@ locals {
     k8sreg    = lookup(var.platform_image_bases, "k8sreg", "registry.k8s.io/")
     ghcr      = lookup(var.platform_image_bases, "ghcr", "ghcr.io/")
   }
+
+  tolerations_system_pool = [
+    {
+      key      = "CriticalAddonsOnly",
+      operator = "Exists",
+    },
+  ]
 }

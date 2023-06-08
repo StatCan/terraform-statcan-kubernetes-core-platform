@@ -10,7 +10,7 @@ resource "kubernetes_namespace" "velero_system" {
 }
 
 module "namespace_velero_system" {
-  source = "git::https://github.com/canada-ca-terraform-modules/terraform-kubernetes-namespace.git?ref=v2.2.0"
+  source = "git::https://gitlab.k8s.cloud.statcan.ca/cloudnative/terraform/modules/terraform-kubernetes-namespace.git?ref=v2.2.0"
 
   name = kubernetes_namespace.velero_system.id
   namespace_admins = {
@@ -35,7 +35,7 @@ module "namespace_velero_system" {
 }
 
 module "velero_identity" {
-  source = "git::https://github.com/statcan/terraform-kubernetes-aad-pod-identity-template.git?ref=v2.x"
+  source = "git::https://gitlab.k8s.cloud.statcan.ca/cloudnative/terraform/modules/terraform-kubernetes-aad-pod-identity-template.git?ref=v2.x"
 
   depends_on = [
     module.aad_pod_identity
@@ -50,7 +50,7 @@ module "velero_identity" {
 }
 
 module "velero" {
-  source = "git::https://github.com/statcan/terraform-kubernetes-velero.git?ref=v5.2.1"
+  source = "git::https://gitlab.k8s.cloud.statcan.ca/cloudnative/terraform/modules/terraform-kubernetes-velero.git?ref=v5.2.1"
 
   chart_version = "2.30.2"
   depends_on = [

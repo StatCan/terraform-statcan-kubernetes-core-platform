@@ -10,7 +10,7 @@ resource "kubernetes_namespace" "aad_pod_identity_system" {
 }
 
 module "namespace_aad_pod_identity_system" {
-  source = "git::https://github.com/canada-ca-terraform-modules/terraform-kubernetes-namespace.git?ref=v2.2.0"
+  source = "git::https://gitlab.k8s.cloud.statcan.ca/cloudnative/terraform/modules/terraform-kubernetes-namespace.git?ref=v2.2.0"
 
   name = kubernetes_namespace.aad_pod_identity_system.id
   namespace_admins = {
@@ -39,7 +39,7 @@ module "aad_pod_identity" {
     helm = helm
   }
 
-  source = "git::https://github.com/statcan/terraform-kubernetes-aad-pod-identity.git?ref=v3.0.0"
+  source = "git::https://gitlab.k8s.cloud.statcan.ca/cloudnative/terraform/modules/terraform-kubernetes-aad-pod-identity.git?ref=v3.0.0"
 
   depends_on = [
     kubernetes_namespace.aad_pod_identity_system

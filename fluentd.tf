@@ -10,7 +10,7 @@ resource "kubernetes_namespace" "fluentd_system" {
 }
 
 module "namespace_fluentd_system" {
-  source = "git::https://github.com/canada-ca-terraform-modules/terraform-kubernetes-namespace.git?ref=v2.2.0"
+  source = "git::https://gitlab.k8s.cloud.statcan.ca/cloudnative/terraform/modules/terraform-kubernetes-namespace.git?ref=v2.2.0"
 
   name = kubernetes_namespace.fluentd_system.id
   namespace_admins = {
@@ -38,7 +38,7 @@ module "namespace_fluentd_system" {
 }
 
 module "fluentd" {
-  source = "git::https://github.com/statcan/terraform-kubernetes-fluentd.git?ref=v3.0.1"
+  source = "git::https://gitlab.k8s.cloud.statcan.ca/cloudnative/terraform/modules/terraform-kubernetes-fluentd.git?ref=v3.0.1"
 
   depends_on = [
     kubernetes_namespace.fluentd_system
