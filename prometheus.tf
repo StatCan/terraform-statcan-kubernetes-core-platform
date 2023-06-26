@@ -101,6 +101,7 @@ grafana:
     repository: ${local.repositories.dockerhub}curlimages/curl
   image:
     repository: ${local.repositories.dockerhub}grafana/grafana
+    tag: 9.3.16
     pullSecrets:
       - "${local.platform_image_pull_secret_name}"
   initChownData:
