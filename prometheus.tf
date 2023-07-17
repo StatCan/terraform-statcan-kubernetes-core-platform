@@ -327,12 +327,12 @@ resource "helm_release" "blackbox-exporter" {
   repository_password = var.platform_helm_repository_password
   repository          = lookup(var.platform_helm_repositories, "blackbox-exporter", "https://prometheus-community.github.io/helm-charts")
   chart               = "prometheus-blackbox-exporter"
-  version             = "4.10.4"
+  version             = "7.0.0"
 
   values = [<<EOF
 image:
   repository: ${local.repositories.dockerhub}prom/blackbox-exporter
-  tag: v0.18.0
+  tag: v0.23.0
   pullPolicy: IfNotPresent
   pullSecrets:
   - name: "${local.platform_image_pull_secret_name}"
