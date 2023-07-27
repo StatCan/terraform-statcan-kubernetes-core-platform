@@ -50,27 +50,28 @@ module "velero_identity" {
 }
 
 module "velero" {
-  source = "git::https://gitlab.k8s.cloud.statcan.ca/cloudnative/terraform/modules/terraform-kubernetes-velero.git?ref=v5.2.1"
+  source = "git::https://gitlab.k8s.cloud.statcan.ca/cloudnative/terraform/modules/terraform-kubernetes-velero.git?ref=v6.0.0"
 
-  chart_version = "3.1.4"
+  chart_version = "4.0.3"
   depends_on = [
     module.velero_identity
   ]
 
-  helm_namespace           = kubernetes_namespace.velero_system.id
-  helm_repository          = lookup(var.platform_helm_repositories, "velero", "https://vmware-tanzu.github.io/helm-charts")
-  helm_repository_username = var.platform_helm_repository_username
-  helm_repository_password = var.platform_helm_repository_password
+  helm_namespace = kubernetes_namespace.velero_system.id
 
-  backup_storage_resource_group = var.backup_resource_group_name
-  backup_storage_account        = var.velero_storage_account
-  backup_storage_bucket         = var.velero_storage_bucket
+  helm_repository = {
+    name     = lookup(var.platform_helm_repositories, "velero", "https://vmware-tanzu.github.io/helm-charts")
+    username = var.platform_helm_repository_username
+    password = var.platform_helm_repository_password
+  }
 
-  azure_client_id       = ""
-  azure_client_secret   = ""
-  azure_resource_group  = var.cluster_node_resource_group_name
-  azure_subscription_id = var.subscription_id
-  azure_tenant_id       = var.tenant_id
+  cloud_provider_credentials = {
+    client_id       = ""
+    client_secret   = ""
+    resource_group  = var.cluster_node_resource_group_name
+    subscription_id = var.subscription_id
+    tenant_id       = var.tenant_id
+  }
 
   enable_prometheusrules = true
 
@@ -99,7 +100,7 @@ resources:
 
 initContainers:
   - name: velero-plugin-for-azure
-    image: ${local.repositories.dockerhub}velero/velero-plugin-for-microsoft-azure:v1.6.0
+    image: ${local.repositories.dockerhub}velero/velero-plugin-for-microsoft-azure:v1.7.0
     imagePullPolicy: IfNotPresent
     volumeMounts:
       - mountPath: /target
@@ -115,19 +116,24 @@ metrics:
     enabled: true
 
 configuration:
-  # Cloud provider being used (e.g. aws, azure, gcp).
-  provider: azure
   # Parameters for the `default` BackupStorageLocation. See
   # https://velero.io/docs/v1.0.0/api-types/backupstoragelocation/
   backupStorageLocation:
-    name: ${var.cluster_name}
+  - name: ${var.cluster_name}
     default: true
+    provider: azure
+    bucket: ${var.velero_storage_bucket}
+    config:
+      subscriptionId: ${var.subscription_id}
+      resourceGroup: ${var.backup_resource_group_name}
+      storageAccount: ${var.velero_storage_account}
   # Parameters for the `default` VolumeSnapshotLocation. See
   # https://velero.io/docs/v1.0.0/api-types/volumesnapshotlocation/
   volumeSnapshotLocation:
     # Cloud provider where volume snapshots are being taken. Usually
     # should match `configuration.provider`. Required.,
-    name: ${var.cluster_name}
+  - name: ${var.cluster_name}
+    provider: azure
     config:
       resourceGroup: ${var.backup_resource_group_name}
       incremental: true
