@@ -97,6 +97,10 @@ prometheusOperator:
 grafana:
   adminPassword: ${random_password.grafana_admin_password.result}
 
+  # Mitigation for https://github.com/grafana/helm-charts/issues/1184
+  deploymentStrategy:
+    type: Recreate
+
   downloadDashboardsImage:
     repository: ${local.repositories.dockerhub}curlimages/curl
   image:
