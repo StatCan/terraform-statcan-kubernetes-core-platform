@@ -193,8 +193,6 @@ prometheus:
               claim: platform-prometheus
     externalLabels:
       cluster: ${var.cluster_name}
-    additionalScrapeConfigs:
-    ${trimspace(indent(4, var.prometheus_additional_scrape_config))}
     additionalAlertManagerConfigs:
     - scheme: https
       static_configs:

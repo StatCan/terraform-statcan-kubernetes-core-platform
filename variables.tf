@@ -203,68 +203,22 @@ variable "vault_address" {
 
 # KubeCost
 
-variable "kubecost_cluster_profile" {
-
-}
-
-variable "kubecost_token" {
-  sensitive = true
-}
-
-variable "kubecost_product_key" {
-  sensitive = true
-}
-
-variable "kubecost_client_id" {
-  sensitive = true
-}
-
-variable "kubecost_client_secret" {
-  sensitive = true
-}
-
-variable "kubecost_prometheus_node_selector" {
-  description = "The nodeSelector to apply to the Prometheus instance backing Kubecost."
-  type        = map(string)
-  default     = {}
-}
-
-variable "kubecost_storage_account" {
-
-}
-
-variable "kubecost_storage_access_key" {
-  sensitive = true
-
-}
-
-variable "kubecost_storage_container" {
-
-}
-
-variable "kubecost_shared_namespaces" {
-
-}
-
-variable "kubecost_slack_token" {
-
-}
-
-variable "kubecost_alert_slack_webhook_url" {
-  sensitive   = true
-  description = "Kubecost global url for reporting alerts"
-  default     = "https://hooks.slack.com/services/T00000000/B00000000/XXXXXXXXXXXXXXXXXXXXXXXX"
-}
-
-variable "kubecost_additional_alert_config" {
-  description = "Additional alerts for kubecost to pick up. Default should never trigger"
-  default     = <<EOF
-- type: budget
-  threshold: 100000000000000
-  window: 1d
-  aggregation: namespace
-  filter: default
-EOF
+variable "kubecost" {
+  type = object({
+    cluster_profile   = string
+    token             = string
+    product_key       = string
+    shared_namespaces = list(string)
+    azure = object({
+      client_id       = string
+      client_password = string
+    })
+    metric_relabelings = optional(string, "")
+    notifications = object({
+      global_slack_webhook_url = optional(string, "")
+      alerts                   = optional(string, "")
+    })
+  })
 }
 
 # Prometheus
@@ -297,24 +251,6 @@ variable "additional_alertmanagers" {
 
     error_message = "Must be a list of one or more URLs. Example: [\"http://my-svc:9093\", \"https://example-alertmanager.com\"]."
   }
-}
-
-variable "prometheus_additional_scrape_config" {
-  description = "Default additional scrape configuration for prometheus"
-
-  default = <<EOF
-- job_name: kubecost
-  honor_labels: true
-  scrape_interval: 1m
-  scrape_timeout: 10s
-  metrics_path: /metrics
-  scheme: http
-  dns_sd_configs:
-  - names:
-    - kubecost-cost-analyzer.kubecost-system
-    type: 'A'
-    port: 9003
-EOF
 }
 
 variable "ingress_class_name" {

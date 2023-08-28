@@ -39,102 +39,68 @@ module "kubecost" {
     helm = helm
   }
 
-  source = "git::https://gitlab.k8s.cloud.statcan.ca/cloudnative/terraform/modules/terraform-kubernetes-kubecost.git?ref=v3.2.0"
+  source = "git::https://gitlab.k8s.cloud.statcan.ca/cloudnative/terraform/modules/terraform-kubernetes-kubecost.git?ref=v4.0.0"
 
-  chart_version = "1.99.0"
   depends_on = [
     kubernetes_namespace.kubecost_system
   ]
 
-  helm_namespace           = kubernetes_namespace.kubecost_system.id
-  helm_repository          = lookup(var.platform_helm_repositories, "cost-analyzer", "https://kubecost.github.io/cost-analyzer")
-  helm_repository_username = var.platform_helm_repository_username
-  helm_repository_password = var.platform_helm_repository_password
+  namespace = kubernetes_namespace.kubecost_system.metadata.0.name
 
-  values = <<EOF
-global:
-  prometheus:
-    enabled: false
-    fqdn: http://kube-prometheus-stack-prometheus.prometheus-system.svc:9090
-  grafana:
-    enabled: false
-    domainName: kube-prometheus-stack-grafana.prometheus-system
-    proxy: false
-  notifications:
-    alertConfigs:
-      globalSlackWebhookUrl: ${var.kubecost_alert_slack_webhook_url}
-      alerts:
-        ${trimspace(indent(8, var.kubecost_additional_alert_config))}
+  helm_repository = {
+    name     = lookup(var.platform_helm_repositories, "cost-analyzer", "https://kubecost.github.io/cost-analyzer")
+    username = var.platform_helm_repository_username
+    password = var.platform_helm_repository_password
+  }
 
-kubecostToken: "${var.kubecost_token}"
-imagePullSecrets:
-  - name: "${local.platform_image_pull_secret_name}"
-kubecostFrontend:
-  image: "${local.repositories.gcr}kubecost1/frontend"
-kubecost:
-  image: "${local.repositories.gcr}kubecost1/server"
-kubecostModel:
-  image: "${local.repositories.gcr}kubecost1/cost-model"
-remoteWrite:
-  postgres:
-    initImage: "${local.repositories.gcr}kubecost1/sql-init"
-networkCosts:
-  image: "${local.repositories.gcr}kubecost1/kubecost-network-costs:v16.0"
-clusterController:
-  image: "${local.repositories.gcr}kubecost1/cluster-controller:v0.1.0"
-initChownDataImage: "${local.repositories.dockerhub}busybox"
-ingress:
-  enabled: false
-  hosts:
-  - "kubecost.${var.ingress_domain}"
-  paths:
-  - /
-  pathType: Prefix
-tolerations:
-  - key: CriticalAddonsOnly
-    operator: Exists
-grafana:
-  sidecar:
-    dashboards:
-      enabled: true
-    datasources:
-      enabled: false
+  hubs = {
+    gcr       = local.repositories.gcr
+    dockerhub = local.repositories.dockerhub
+  }
 
-kubecostProductConfigs:
-  clusterName: "${var.cluster_name}"
-  clusterProfile: ${var.kubecost_cluster_profile}
-  currencyCode: "CAD"
-  azureBillingRegion: CA
-  azureOfferDurableID: MS-AZR-0017P
-  createServiceKeySecret: false
-  serviceKeySecretName: cloud-service-key
-  grafanaURL: https://grafana.${var.ingress_domain}
-  productKey:
-    enabled: true
-    key: ${var.kubecost_product_key}
-  labelMappingConfigs:
-    enabled: true
-    owner_label: "project.statcan.gc.ca/lead"
-    team_label: "project.statcan.gc.ca/team"
-    department_label: "project.statcan.gc.ca/division"
-    product_label: "finance.statcan.gc.ca/workload-id"
-    product_external_label: "wid"
-    environment_label: "project.statcan.gc.ca/environment"
-  gpuLabel: "node.statcan.gc.ca/use"
-  gpuLabelValue: "gpu"
-  sharedNamespaces: "${var.kubecost_shared_namespaces}"
+  image_pull_secret_names = [local.platform_image_pull_secret_name]
 
-prometheus:
-  nodeExporter:
-    tolerations:
-      - key: CriticalAddonsOnly
-        operator: Exists
-      - effect: NoSchedule
-        operator: Exists
-%{if length(var.kubecost_prometheus_node_selector) > 0~}
-  nodeSelector:
-    ${indent(4, yamlencode(var.kubecost_prometheus_node_selector))~}
-%{endif~}
+  ingress = {
+    enabled = false
+  }
 
-EOF
+  prometheus = {
+    fqdn = "http://kube-prometheus-stack-prometheus.prometheus-system.svc:9090"
+    service_monitor = {
+      cost_analyzer = {
+        metric_relabelings = var.kubecost.metric_relabelings
+      }
+    }
+  }
+
+  grafana = {
+    domain_name = "kube-prometheus-stack-grafana.prometheus-system"
+  }
+
+  notifications = {
+    global_slack_webhook_url = var.kubecost.notifications.global_slack_webhook_url
+    alerts                   = var.kubecost.notifications.alerts
+  }
+
+  tolerations = [{
+    key      = "CriticalAddonsOnly"
+    operator = "Exists"
+  }]
+
+  product_configs = {
+    azure = {
+      subscription_id  = var.subscription_id
+      client_id        = var.kubecost.azure.client_id
+      client_password  = var.kubecost.azure.client_password
+      tenant_id        = var.tenant_id
+      offer_durable_id = "MS-AZR-0017P" # Can be pulled from the Subscription
+    }
+    cluster_name                = var.cluster_name
+    cluster_profile             = var.kubecost.cluster_profile
+    grafana_url                 = "https://grafana.${var.ingress_domain}"
+    token                       = var.kubecost.token
+    product_key                 = var.kubecost.product_key
+    extra_label_mapping_configs = { "product_external_label" = "wid" }
+    shared_namespaces           = var.kubecost.shared_namespaces
+  }
 }
