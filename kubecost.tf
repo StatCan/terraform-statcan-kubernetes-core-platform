@@ -39,7 +39,7 @@ module "kubecost" {
     helm = helm
   }
 
-  source = "git::https://gitlab.k8s.cloud.statcan.ca/cloudnative/terraform/modules/terraform-kubernetes-kubecost.git?ref=v4.0.0"
+  source = "git::https://gitlab.k8s.cloud.statcan.ca/cloudnative/terraform/modules/terraform-kubernetes-kubecost.git?ref=v4.1.0"
 
   depends_on = [
     kubernetes_namespace.kubecost_system
@@ -61,7 +61,8 @@ module "kubecost" {
   image_pull_secret_names = [local.platform_image_pull_secret_name]
 
   ingress = {
-    enabled = false
+    hosts       = ["kubecost.${var.ingress_domain}"]
+    annotations = var.kubecost.ingress.annotations
   }
 
   prometheus = {

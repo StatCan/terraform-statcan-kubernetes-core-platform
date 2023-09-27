@@ -213,6 +213,9 @@ variable "kubecost" {
       client_id       = string
       client_password = string
     })
+    ingress = object({
+      annotations = optional(map(string), {})
+    })
     metric_relabelings = optional(string, "")
     notifications = object({
       global_slack_webhook_url = optional(string, "")
