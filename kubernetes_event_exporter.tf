@@ -110,7 +110,7 @@ resource "helm_release" "kubernetes_event_exporter" {
           password: ${var.logging_elasticsearch_password}
           layout:
             cluster_name: "{{ .ClusterName }}"
-            timestamp: "{{ .LastTimestamp }}"
+            "@timestamp": "{{ .GetTimestampISO8601 }}"
             message: "{{ .Message }}"
             reason: "{{ .Reason }}"
             type: "{{ .Type }}"
