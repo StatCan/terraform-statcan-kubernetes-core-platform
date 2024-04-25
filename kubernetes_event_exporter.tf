@@ -38,7 +38,7 @@ resource "helm_release" "kubernetes_event_exporter" {
   name      = "kubernetes-event-exporter"
   namespace = kubernetes_namespace.event_logging_system.metadata[0].name
 
-  repository = lookup(var.platform_helm_repositories, "kubernetes-event-exporter", "https://resmoio.github.io/kubernetes-event-exporter")
+  repository = lookup(var.platform_helm_repositories, "kubernetes-event-exporter", "oci://registry-1.docker.io/bitnamicharts/kubernetes-event-exporter")
 
   repository_username = var.platform_helm_repository_username
   repository_password = var.platform_helm_repository_password
@@ -71,7 +71,7 @@ resource "helm_release" "kubernetes_event_exporter" {
 
   set {
     name  = "resources.limits.memory"
-    value = "128Mi"
+    value = "256Mi"
   }
 
   set {
@@ -81,7 +81,7 @@ resource "helm_release" "kubernetes_event_exporter" {
 
   set {
     name  = "resources.requests.memory"
-    value = "64Mi"
+    value = "128Mi"
   }
 
   values = [<<-EOF
