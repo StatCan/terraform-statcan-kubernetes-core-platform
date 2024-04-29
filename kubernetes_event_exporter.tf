@@ -44,15 +44,7 @@ resource "helm_release" "kubernetes_event_exporter" {
   repository_password = var.platform_helm_repository_password
 
   chart   = "kubernetes-event-exporter"
-  version = "0.1.0"
-
-  # for clarity including this override since this chart for some reason
-  # does not use the helm release namespace by default
-  # see: https://github.com/resmoio/kubernetes-event-exporter/blob/f4b7ad969e5c78fd0538d5807ac3363066f8b17c/charts/kubernetes-event-exporter/values.yaml#L63
-  set {
-    name  = "namespaceOverride"
-    value = kubernetes_namespace.event_logging_system.metadata[0].name
-  }
+  version = "3.0.3"
 
   set {
     name  = "image.repository"
@@ -91,7 +83,7 @@ resource "helm_release" "kubernetes_event_exporter" {
     - key: CriticalAddonsOnly
       operator: Exists
 
-  config: |
+  config:
     logLevel: info
     logFormat: pretty
     clusterName: ${var.cluster_name}
