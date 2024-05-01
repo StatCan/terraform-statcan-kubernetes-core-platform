@@ -47,13 +47,18 @@ resource "helm_release" "kubernetes_event_exporter" {
   version = "3.0.3"
 
   set {
+    name  = "image.registry"
+    value = trimsuffix(local.repositories.dockerhub, "/")
+  }
+
+  set {
     name  = "image.repository"
-    value = "${local.repositories.ghcr}resmoio/kubernetes-event-exporter"
+    value = "bitnami/kubernetes-event-exporter"
   }
 
   set {
     name  = "image.tag"
-    value = "v1.1"
+    value = "1.7.0-debian-12-r0"
   }
 
   set {
